@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router:Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -30,5 +31,9 @@ export class LoginComponent implements OnInit {
       console.log('Password:', password);
       // Aquí puedes llamar a tu servicio de autenticación
     }
+  }
+
+  navigateToRegister(): void {
+    this.router.navigate(['/register']);
   }
 }
