@@ -1,22 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../auth.service';
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrls: ['./login.component.scss']
 })
-
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router:Router) {
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
@@ -25,15 +27,32 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      const email = this.loginForm.get('email')?.value;
+      const username = this.loginForm.get('username')?.value;
       const password = this.loginForm.get('password')?.value;
-      console.log('Email:', email);
-      console.log('Password:', password);
-      // Aquí puedes llamar a tu servicio de autenticación
+      console.log('username', username);
+      this.authService.login(username, password).subscribe(
+       
+        response => {
+          console.log('Login successful', response);
+          this.router.navigate(['/chat-main']);
+        },
+        error => {
+          console.error(error);
+          alert('Login failed');
+        }
+      );
     }
   }
 
   navigateToRegister(): void {
     this.router.navigate(['/register']);
+  }
+
+  get username() {
+    return this.loginForm.get('username');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
   }
 }
