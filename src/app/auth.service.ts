@@ -21,4 +21,15 @@ export class AuthService {
 
     return this.http.post(`${this.apiUrl}/connect`, body.toString(), { headers });
   }
+
+  register(username: string, password: string): Observable<any> {
+    console.log('Registrando usuario: ', username);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    const body = new HttpParams()
+      .set('username', username)
+      .set('password', password);
+
+    return this.http.post(`${this.apiUrl}/register`, body.toString(), { headers });
+  }
+
 }

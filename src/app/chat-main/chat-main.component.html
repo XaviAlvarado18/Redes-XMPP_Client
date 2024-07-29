@@ -1,1 +1,17 @@
 <p>chat-main works!</p>
+<div class="sidebar">
+    <div class="sidebar-item user-icon">
+      <!-- Aquí puedes poner la imagen o el ícono del usuario -->
+      <img src="assets/user-icon.png" alt="User Icon">
+    </div>
+    <div class="sidebar-item" *ngFor="let item of sidebarItems">
+      <button (click)="onItemClick(item)">
+        <img [src]="item.icon" alt="{{ item.name }} Icon">
+      </button>
+    </div>
+  </div>
+  <div class="main-content">
+    <!-- Aquí va el contenido principal del chat -->
+    <router-outlet></router-outlet>
+  </div>
+  
