@@ -1,13 +1,15 @@
 <p>chat-main works!</p>
 <div class="sidebar">
     <div class="sidebar-item user-icon">
-      <!-- Aquí puedes poner la imagen o el ícono del usuario -->
-      <img src="./assets/no_avatar.svg" alt="User Icon">
-    </div>
-    <div class="sidebar-item" *ngFor="let item of sidebarItems">
-      <button (click)="onItemClick(item)">
-        <img [src]="item.icon" alt="{{ item.name }} Icon">
-      </button>
+      <!-- chat-main.component.html -->
+      <app-image-button 
+      [imageSrc]="pathToImage || ''"
+      [altText]="'User Icon'"
+      [width]="100"
+      [height]="100"
+      (buttonClick)="handleClick()">
+      </app-image-button>
+
     </div>
   </div>
   <div class="main-content">
