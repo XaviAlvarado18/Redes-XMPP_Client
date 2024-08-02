@@ -1,0 +1,16 @@
+<div class="chat-main">
+    <div class="header">
+      <h3>Nota para mi</h3>
+    </div>
+    <div class="chat-history">
+      <div *ngFor="let message of messages">
+        <p><strong>{{message.user}}</strong> {{message.time}}</p>
+        <p>{{message.text}}</p>
+        <p class="date">{{message.date}}</p>
+      </div>
+    </div>
+    <div class="input-message">
+      <input type="text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" placeholder="Escribe un mensaje...">
+    </div>
+</div>
+  

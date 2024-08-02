@@ -1,0 +1,31 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    .header {
+      background-color: #f1f1f1;
+      padding: 10px;
+      text-align: center;
+    }
+    .chat-history {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      p {
+        margin: 5px 0;
+      }
+      .date {
+        text-align: center;
+        color: #aaa;
+      }
+    }
+    .input-message {
+      padding: 10px;
+      input {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+    }
+  }
+  
