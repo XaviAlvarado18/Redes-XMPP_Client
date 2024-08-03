@@ -1,0 +1,32 @@
+/* view-state.component.scss */
+.state-container {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .availability {
+    button {
+      background-color: #ccc;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+  
+      &.active {
+        background-color: #4CAF50;
+        color: white;
+      }
+    }
+  }
+  
+  .status-message {
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  }
