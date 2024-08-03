@@ -1,32 +1,70 @@
 /* view-state.component.scss */
 .state-container {
-    font-family: Arial, sans-serif;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.availability {
+  display: flex;
+  justify-content: center;  // Centra horizontalmente el contenido
+  margin: 20px 0;  // Agrega margen si necesitas separación
+}
+
+.status-button {
+  display: flex;
+  align-items: center;  // Centra verticalmente el contenido dentro del botón
+  justify-content: center; 
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 8px;
+  cursor: pointer;
+  width: 8vw;
+  border-radius: 10px;  // Si quieres un borde redondeado
+}
+
+.status-circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.status-circle.available {
+  background-color: green;
+}
+
+.status-message {
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
   }
-  
-  .availability {
-    button {
-      background-color: #ccc;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 20px;
-      cursor: pointer;
-  
-      &.active {
-        background-color: #4CAF50;
-        color: white;
-      }
-    }
-  }
-  
-  .status-message {
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-  }
+}
+
+.dropdown-menu {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ccc;
+  background-color: white;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.dropdown-menu li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f0f0f0;
+}

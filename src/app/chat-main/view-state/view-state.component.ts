@@ -11,19 +11,28 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './view-state.component.scss'
 })
 export class ViewStateComponent implements OnInit {
-  available: boolean = true;
+  statuses = ['available', 'absent', 'unavailable', 'busy', 'offline'];
+  currentStatus: string = 'available';
+  selectedStatus: string | null = null;
+  isDropdownOpen = false;
   statusMessage: string = '';
   lastCheck: string = '1/08/2024';
+  isOpen: boolean = false;
   
   constructor() { }
 
   ngOnInit(): void { }
 
-  toggleAvailability(): void {
-    this.available = !this.available;
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
   }
 
   updateMessage(event: Event): void {
     this.statusMessage = (event.target as HTMLInputElement).value;
+  }
+
+  selectStatus(status: string) {
+    this.currentStatus = status;
+    this.isOpen = false;
   }
 }

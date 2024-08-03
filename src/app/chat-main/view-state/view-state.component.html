@@ -1,19 +1,25 @@
 <!-- view-state.component.html -->
 <div class="state-container">
-    <h2>State</h2>
-    <p>State and message status for all accounts</p>
-    
-    <div class="availability">
-      <button [class.active]="available" (click)="toggleAvailability()">
-        {{ available ? 'Available' : 'Not available' }}
-      </button>
-    </div>
-    
-    <div class="status-message">
-      <input type="text" [(ngModel)]="statusMessage" (input)="updateMessage($event)" placeholder="Status message...">
-    </div>
-    
-    <h2>Updates</h2>
-    <p>Gajim: No updates available (last check: {{lastCheck}})</p>
-    <p>Plugins: No updates available</p>
+  <h2>State</h2>
+  <p>State and message status for all accounts</p>
+  
+  <div class="availability">
+    <button (click)="toggleDropdown()" class="status-button">
+      <span [ngClass]="{ 'status-circle': true, 'available': true }"></span>
+      Available
+    </button>
+    <ul *ngIf="isDropdownOpen" class="dropdown-menu">
+      <li *ngFor="let status of statuses" (click)="selectStatus(status)">
+        {{ status }}
+      </li>
+    </ul>
+  </div>
+  
+  <div class="status-message">
+    <input type="text" [(ngModel)]="statusMessage" (input)="updateMessage($event)" placeholder="Status message...">
+  </div>
+  
+  <h2>Updates</h2>
+  <p>Gajim: No updates available (last check: {{lastCheck}})</p>
+  <p>Plugins: No updates available</p>
 </div>
