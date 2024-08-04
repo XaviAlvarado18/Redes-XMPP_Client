@@ -1,0 +1,54 @@
+/* my-modal.component.scss */
+.mat-dialog-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    background: rgb(208, 22, 131);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Ajusta el tamaño del modal según sea necesario */
+    max-width: 20vw; /* Asegúrate de que el modal no sea más ancho que el 80% de la ventana */
+    max-height: 80vh; /* Asegúrate de que el modal no sea más alto que el 80% de la ventana */
+    margin: auto;
+  }
+  
+  .mat-dialog-title {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  
+  .mat-dialog-content {
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .mat-dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  button {
+    margin: 0 8px;
+  }
+  
+
+  .close-session-button {
+    background-color: orange;
+    color: white;
+  
+    &:hover {
+      background-color: darkorange;
+    }
+  }
+  
+  .delete-account-button {
+    background-color: red;
+    color: white;
+  
+    &:hover {
+      background-color: darkred;
+    }
+  }

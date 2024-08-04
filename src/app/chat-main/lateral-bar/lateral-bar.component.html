@@ -3,9 +3,19 @@
     <app-image-button
       imageSrc="assets/xmpp.png"
       [width] = "40"
-      [height]="40">
+      [height]="40"
+      [translateY]="5"
+      (buttonClick)="handleClick()"
+      >
     </app-image-button>
 
+    <app-image-button
+      imageSrc="assets/user.png"
+      [width]="40"
+      [height]="40"
+      [translateY]="560"
+      (buttonClick)="openModal()"
+    ></app-image-button>
 
     <!-- Agrega más botones de imagen si lo necesitas -->
 </div>
