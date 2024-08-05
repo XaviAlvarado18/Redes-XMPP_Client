@@ -29,21 +29,26 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const username = this.loginForm.get('username')?.value;
       const password = this.loginForm.get('password')?.value;
-      console.log('username', username);
+      //console.log('username', username);
+  
       this.authService.login(username, password).subscribe(
-       
         response => {
-          console.log('Login successful', response);
-          this.router.navigate(['/chat-main']);
+          if (response.status === 'connected') { // Verifica el estado de la respuesta
+            console.log('Login successful', response);
+            this.router.navigate(['/chat-main']); // Navega solo si el login es exitoso
+          } else {
+            console.error('Login failed with status:', response.status);
+            alert('Login failed: ' + response.status); // Muestra el error de la respuesta
+          }
         },
         error => {
-          console.error(error);
-          alert('Login failed');
+          console.error('Login failed', error);
+          alert('Login failed: ' + (error.error?.message || 'Unknown error')); // Muestra el error recibido
         }
       );
     }
   }
-
+  
   navigateToRegister(): void {
     this.router.navigate(['/register']);
   }

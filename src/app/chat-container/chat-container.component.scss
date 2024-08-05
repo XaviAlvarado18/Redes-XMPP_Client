@@ -1,31 +1,116 @@
-.chat-container {
+.main-container {
+  display: flex;
+  height: 100vh;
+
+  .sidebar {
+    width: 25%;
+    background-color: #f1f1f1;
+    border-right: 1px solid #ccc;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+
+    .sidebar-header {
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      input {
+        flex-grow: 1;
+        margin-right: 10px;
+        padding: 5px;
+      }
+    }
+
+    .sidebar-content {
+      flex: 1;
+      overflow-y: auto;
+
+      .chat-item {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #e1e1e1;
+        }
+
+        .chat-title {
+          font-weight: bold;
+        }
+
+        .chat-preview {
+          color: #555;
+        }
+      }
+    }
+  }
+
+  .chat-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+
     .header {
       background-color: #f1f1f1;
       padding: 10px;
       text-align: center;
+      border-bottom: 1px solid #ccc;
+
+      h3 {
+        margin: 0;
+      }
     }
+
     .chat-history {
       flex: 1;
       padding: 10px;
       overflow-y: auto;
-      p {
-        margin: 5px 0;
-      }
-      .date {
-        text-align: center;
-        color: #aaa;
+      background-color: #fafafa;
+
+      .message {
+        margin-bottom: 10px;
+
+        .user-time {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 5px;
+
+          strong {
+            color: #333;
+          }
+
+          span {
+            color: #aaa;
+            font-size: 0.9em;
+          }
+        }
+
+        .text {
+          margin: 0;
+          color: #333;
+        }
+
+        .date {
+          text-align: right;
+          color: #aaa;
+          font-size: 0.8em;
+          margin-top: 5px;
+        }
       }
     }
+
     .input-message {
       padding: 10px;
+      border-top: 1px solid #ccc;
+
       input {
         width: 100%;
         padding: 10px;
         box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
       }
     }
   }
-  
+}

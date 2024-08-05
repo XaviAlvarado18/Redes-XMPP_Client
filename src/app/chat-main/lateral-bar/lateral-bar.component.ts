@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { ImageButtonComponent } from '../../image-button/image-button.component';
 import { MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { ModalComponentComponent } from '../modal-component/modal-component.component';
 import { AuthService } from '../../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lateral-bar',
@@ -11,9 +12,21 @@ import { AuthService } from '../../auth.service';
   templateUrl: './lateral-bar.component.html',
   styleUrl: './lateral-bar.component.scss'
 })
+
+@Injectable({providedIn: 'root'})
 export class LateralBarComponent {
 
-  constructor(private dialog: MatDialog, private authService: AuthService) {}
+  username: string | null = null;
+  private readonly domain = '@alumchat.lol';
+
+  constructor(private dialog: MatDialog, private authService: AuthService, private router: Router) {}
+
+  ngOnInit() {
+    this.authService.getUsername().subscribe(username => {
+      console.log('Username from service:', username); // Debugging
+      this.username = username;
+    });
+  }
 
   onItemClick(item: any) {
     // Manejar el clic en los elementos de la barra lateral
@@ -36,16 +49,42 @@ export class LateralBarComponent {
     this.dialog.open(ModalComponentComponent, dialogConfig);
   }
 
-
   closeSession() {
-    const username = 'usuario';
-    this.authService.disconnect(username).subscribe(response => {
-      if (response.status === 'disconnected') {
-        console.log('Session disconnected successfully');
+    console.log('closeSession called');
+    this.authService.getUsername().subscribe(username => {
+      console.log('Username from service in closeSession:', username); // Debugging
+      if (username) {
+        const fullUsername = `${username}${this.domain}`; // Append domain
+        this.authService.disconnect(fullUsername).subscribe(response => {
+          if (response.status === 'disconnected') {
+            console.log('Session disconnected successfully');
+            this.router.navigate(['/login']); // Redirigir a la pantalla de login
+          } else {
+            console.log('Failed to disconnect session:', response.status);
+          }
+        });
       } else {
-        console.log('Failed to disconnect session:', response.status);
+        console.log('No username available for disconnection');
       }
     });
   }
+
+  deleteUser() {
+    this.authService.getUsername().subscribe(username => {
+        if (username) {
+            const fullUsername = `${username}${this.domain}`; // Append domain
+            this.authService.deleteUser(fullUsername).subscribe(response => {
+                if (response.status === 'user_deleted') {
+                    console.log('User deleted successfully');
+                    this.router.navigate(['/login']); // Redirigir a la pantalla de login
+                } else {
+                    console.log('Failed to delete user:', response.status);
+                }
+            });
+        } else {
+            console.log('No username available for deletion');
+        }
+    });
+}
 
 }

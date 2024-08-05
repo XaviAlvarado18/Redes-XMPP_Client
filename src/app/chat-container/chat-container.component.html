@@ -1,16 +1,34 @@
-<div class="chat-main">
+<div class="main-container">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Mi área de trabajo</h3>
+      <input type="text" placeholder="Buscar...">
+      <button>+</button>
+    </div>
+    <div class="sidebar-content">
+      <div class="chat-item" *ngFor="let chat of chats">
+        <p class="chat-title">{{ chat.title }}</p>
+        <p class="chat-preview">{{ chat.preview }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="chat-container">
     <div class="header">
-      <h3>Nota para mi</h3>
+      <h3>{{ selectedChat?.title }}</h3>
     </div>
     <div class="chat-history">
-      <div *ngFor="let message of messages">
-        <p><strong>{{message.user}}</strong> {{message.time}}</p>
-        <p>{{message.text}}</p>
-        <p class="date">{{message.date}}</p>
+      <div *ngFor="let message of selectedChat?.messages">
+        <div class="message">
+          <p class="user-time">
+            <strong>{{message.user}}</strong> <span>{{message.time}}</span>
+          </p>
+          <p class="text">{{message.text}}</p>
+          <p class="date">{{message.date}}</p>
+        </div>
       </div>
     </div>
     <div class="input-message">
       <input type="text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" placeholder="Escribe un mensaje...">
     </div>
+  </div>
 </div>
-  

@@ -1,22 +1,37 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+
 @Component({
   selector: 'app-chat-container',
   standalone: true,
   imports: [FormsModule],
   templateUrl: './chat-container.component.html',
-  styleUrl: './chat-container.component.scss'
+  styleUrls: ['./chat-container.component.scss']
 })
 export class ChatContainerComponent {
-  messages = [
-    { user: 'Yo', time: '20:22', text: 'Hola chaval', date: 'jue. 1/08/2024' }
+  chats = [
+    {
+      title: 'Nota para mi',
+      preview: 'Hola chaval',
+      messages: [
+        { user: 'Yo', time: '20:22', text: 'Hola chaval', date: 'jue. 1/08/2024' }
+      ]
+    },
+    {
+      title: 'alumchat.lol',
+      preview: 'Hola',
+      messages: [
+        { user: 'Yo', time: '14:55', text: 'Hola', date: 'jue. 25/07/2024' }
+      ]
+    }
   ];
+  selectedChat = this.chats[0];
   newMessage = '';
 
   sendMessage() {
     if (this.newMessage.trim()) {
-      this.messages.push({
+      this.selectedChat.messages.push({
         user: 'Yo',
         time: new Date().toLocaleTimeString(),
         text: this.newMessage,
