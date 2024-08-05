@@ -1,0 +1,59 @@
+.work-area-bar {
+    display: flex;
+    flex-direction: column;
+    width: 20vw; // Aproximadamente 1/4 del ancho de la pantalla
+    height: 100vh; // Ocupa todo el alto de la pantalla
+    background-color: #f0f0f0; // Ajusta el color de fondo según sea necesario
+    padding: 10px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1); // Sombra para dar un poco de profundidad
+    border: 1px solid rgb(141, 137, 137);
+
+  
+    h2 {
+      margin-bottom: 10px;
+      font-size: 1em;
+    }
+  
+    .toolbar {
+      display: flex;
+      flex-direction: row; // Columna para que los elementos estén uno debajo del otro
+      align-items: stretch;
+  
+      .search-input {
+        padding: 5px;
+        margin-bottom: 10px;
+        margin-right: 1.0em;
+        border: 1px solid black;
+        width: 14vw;
+        height: 2vh;
+        border-radius: 4px;
+      }
+  
+      app-image-button {
+        margin-left: 1.0em; // Espacio entre los botones
+      }
+
+      .filter-button, .add-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 5vh;
+        width: 4vw;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-bottom: 5px;
+  
+        i {
+          font-size: 1.0em;
+        }
+  
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
+  

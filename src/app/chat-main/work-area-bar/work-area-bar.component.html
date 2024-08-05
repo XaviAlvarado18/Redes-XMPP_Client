@@ -1,0 +1,25 @@
+<div class="work-area-bar">
+    <h2>Mi área de trabajo</h2>
+    <div class="toolbar">
+      <input type="text" placeholder="Buscar..." class="search-input">
+
+      <app-image-button
+      imageSrc="assets/loupe.png"
+      [width] = "30"
+      [height]="30"
+      [translateY]="0"
+      (buttonClick)="handleClick()"
+      >
+      </app-image-button>
+
+      <app-image-button
+      imageSrc="assets/plus.png"
+      [width] = "30"
+      [height]="30"
+      [translateY]="0"
+      (buttonClick)="handleClick()"
+      >  
+      </app-image-button>
+
+    </div>
+  </div>  
