@@ -5,15 +5,23 @@
       [width] = "40"
       [height]="40"
       [translateY]="5"
-      (buttonClick)="handleClick()"
+      (buttonClick)="to_chatMain()"
       >
     </app-image-button>
+
+    <app-image-button
+      imageSrc="assets/workarea.png"
+      [width]="40"
+      [height]="40"
+      [translateY]="6"
+      (buttonClick)="to_workArea()"
+    ></app-image-button>
 
     <app-image-button
       imageSrc="assets/user.png"
       [width]="40"
       [height]="40"
-      [translateY]="560"
+      [translateY]="500"
       (buttonClick)="openModal()"
     ></app-image-button>
 

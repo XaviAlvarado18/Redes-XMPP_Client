@@ -37,6 +37,14 @@ export class LateralBarComponent {
     console.log('Button clicked!');
   }
 
+  to_chatMain(): void{
+    this.router.navigate(['/chat-main']);
+  }
+
+  to_workArea(): void {
+    this.router.navigate(['/workarea']); // Navega a la nueva pantalla
+  }
+
   openModal() {
 
     const dialogConfig = new MatDialogConfig();

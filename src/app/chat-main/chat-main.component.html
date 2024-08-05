@@ -2,7 +2,8 @@
 <div class="sidebar">
     <div class="sidebar-item user-icon">
       <!-- chat-main.component.html -->
-      <app-view-state></app-view-state>
+      <app-view-state *ngIf="isViewState"></app-view-state>
+      <app-view-workarea *ngIf="!isViewState"></app-view-workarea>
       <app-lateral-bar></app-lateral-bar>
       <!--<app-chat-container></app-chat-container> -->
     </div>
