@@ -11,6 +11,6 @@ import { WorkAreaBarComponent } from "../work-area-bar/work-area-bar.component";
 })
 export class ViewWorkareaComponent {
 
-  workAreaBarPosition = -10;
+  workAreaBarPosition = 0;
 
 }
