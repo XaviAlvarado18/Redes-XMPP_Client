@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImageButtonComponent } from "../../image-button/image-button.component";
 import { MessageItemComponent } from '../message-item/message-item.component';
@@ -25,6 +25,9 @@ export class WorkAreaBarComponent implements OnInit{
   messages: MessageXMPP[] = [];
   messagesView: MessageView[] = [];
 
+  @Output() messageSelected = new EventEmitter<any>();
+  
+
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -33,6 +36,12 @@ export class WorkAreaBarComponent implements OnInit{
 
   handleClick() {
     console.log('Button clicked!');
+  }
+
+  // Método para manejar el clic en un mensaje
+  handleMessageClick(message: any) {
+    this.messageSelected.emit([this.messagesView]);  // Emitir el mensaje seleccionado
+    console.log("Message selected", this.messagesView);
   }
 
   getMessages(): void {

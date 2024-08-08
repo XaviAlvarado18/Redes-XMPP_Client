@@ -1,7 +1,10 @@
 <div class="main-layout">
     <app-lateral-bar></app-lateral-bar>
-    <app-work-area-bar [style.transform]="'translateX(' + workAreaBarPosition + 'px)'"></app-work-area-bar>
-    <app-chat></app-chat>
+    <app-work-area-bar 
+      [style.transform]="'translateX(' + workAreaBarPosition + 'px)'" 
+      (messageSelected)="handleMessageSelected($event)">
+    </app-work-area-bar>
+    <app-chat *ngIf="showChat" [messages]="selectedMessages"></app-chat>
     <!-- Otros componentes principales de la aplicación -->
   </div>
   

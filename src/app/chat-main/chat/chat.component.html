@@ -1,7 +1,7 @@
 <div class="chat-container">
     <!-- Header con el nombre del usuario -->
     <div class="chat-header">
-      <h2>{{ username }}</h2>
+      <h2>{{ contactName }}</h2>
     </div>
   
     <!-- Espacio para los mensajes -->
@@ -14,7 +14,7 @@
     <!-- Área para escribir y enviar mensajes -->
     <div class="chat-input">
       <input [(ngModel)]="newMessage" placeholder="Escribe un mensaje..." />
-      <button (click)="sendMessage()">Enviar</button>
+      <button>Enviar</button>
     </div>
   </div>
   

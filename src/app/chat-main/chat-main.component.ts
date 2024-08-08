@@ -6,12 +6,13 @@ import { ChatContainerComponent } from '../chat-container/chat-container.compone
 import { ViewStateComponent } from './view-state/view-state.component';
 import { ViewWorkareaComponent } from './view-workarea/view-workarea.component';
 import { Router, NavigationEnd } from '@angular/router';
+import { ChatComponent } from "./chat/chat.component";
 
 
 @Component({
   selector: 'app-chat-main',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, LateralBarComponent, ChatContainerComponent, ViewStateComponent, ViewWorkareaComponent],
+  imports: [RouterOutlet, CommonModule, LateralBarComponent, ChatContainerComponent, ViewStateComponent, ViewWorkareaComponent, ChatComponent],
   templateUrl: './chat-main.component.html',
   styleUrl: './chat-main.component.scss'
 })
