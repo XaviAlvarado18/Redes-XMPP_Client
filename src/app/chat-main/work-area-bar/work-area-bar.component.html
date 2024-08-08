@@ -30,7 +30,15 @@
     timestamp="jue."
     (messageClick)="handleClick()"
     >
-    
+  </app-message-item>
+
+  <app-message-item
+    *ngFor="let message of messagesView"
+    [avatarUrl]="message.avatarUrl"
+    [contactName]="message.contactName"
+    [lastMessage]="message.lastMessage"
+    [timestamp]="message.timestamp"
+    (messageClick)="handleClick()">
   </app-message-item>
 
   </div>  

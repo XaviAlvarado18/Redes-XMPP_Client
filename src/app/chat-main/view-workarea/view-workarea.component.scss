@@ -11,3 +11,7 @@
     flex: 1; // Ocupará el 25% del ancho de la pantalla como se definió en el componente
   }
   
+  app-chat {
+    flex: 3; /* Ocupará el espacio restante después del lateral-bar y work-area-bar */
+    height: 100%; /* Asegúrate de ocupar toda la altura disponible */
+  }
