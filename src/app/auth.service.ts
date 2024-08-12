@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { environment } from '../environments/environment';
+import { MessageXMPP } from './chat-main/work-area-bar/message-xmpp.model';
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +63,10 @@ export class AuthService {
 
   getUsername(): Observable<string | null> {
     return this.username$;
+  }
+
+  getMessages(): Observable<{ messages: MessageXMPP[]}> {
+    return this.http.get<{messages: MessageXMPP[]}>(`${this.apiUrl}/get-messages`, { withCredentials: true });
   }
 
 }
