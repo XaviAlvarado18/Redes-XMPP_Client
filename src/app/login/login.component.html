@@ -3,16 +3,23 @@
   <h2>Login</h2>
   <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
     <div>
-      <label for="email">Email</label>
-      <input id="email" type="email" formControlName="email">
+      <label for="username">Username</label>
+      <input id="username" type="text" formControlName="username">
+      <div *ngIf="username?.invalid && username?.touched">
+        <small *ngIf="username?.errors?.['required']">Username is required.</small>
+      </div>
     </div>
     <div>
       <label for="password">Password</label>
       <input id="password" type="password" formControlName="password">
+      <div *ngIf="password?.invalid && password?.touched">
+        <small *ngIf="password?.errors?.['required']">Password is required.</small>
+        <small *ngIf="password?.errors?.['minLength']">Password must be at least 6 characters long.</small>
+      </div>
     </div>
     <div class="button-container">
-      <button type="submit">Login</button>
-      <button type="button">Register</button>
+      <button type="submit" [disabled]="loginForm.invalid">Login</button>
+      <button type="button" (click)="navigateToRegister()">Register</button>
     </div>
   </form>
 </div>

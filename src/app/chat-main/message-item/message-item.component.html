@@ -1,0 +1,10 @@
+<button class="message-item-button" (click)="onMessageClick()">
+  <img [src]="avatarUrl" alt="{{ contactName }}" class="avatar">
+  <div class="message-content">
+    <div class="contact-info">
+      <span class="contact-name">{{ contactName }}</span>
+      <span class="timestamp">{{ timestamp }}</span>
+    </div>
+    <div class="last-message">{{ lastMessage }}</div>
+  </div>
+</button>

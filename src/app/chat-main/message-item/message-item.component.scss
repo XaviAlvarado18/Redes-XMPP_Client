@@ -1,0 +1,47 @@
+.message-item-button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: transparent;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+
+  &:hover {
+    background-color: #e0e0e0; // Color de fondo al pasar el mouse
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .message-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .contact-info {
+      display: flex;
+      justify-content: space-between;
+
+      .contact-name {
+        font-weight: bold;
+      }
+
+      .timestamp {
+        font-size: 0.8em;
+        color: gray;
+      }
+    }
+
+    .last-message {
+      margin-top: 5px;
+      color: #555;
+    }
+  }
+}
