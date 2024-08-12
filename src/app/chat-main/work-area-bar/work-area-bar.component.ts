@@ -40,7 +40,7 @@ export class WorkAreaBarComponent implements OnInit{
 
   // Método para manejar el clic en un mensaje
   handleMessageClick(message: any) {
-    this.messageSelected.emit([this.messagesView]);  // Emitir el mensaje seleccionado
+    this.messageSelected.emit([this.messages]);  // Emitir el mensaje seleccionado
     console.log("Message selected", this.messagesView);
   }
 
@@ -68,6 +68,9 @@ export class WorkAreaBarComponent implements OnInit{
       groupedMessages[message.sender].push(message);
     });
 
+    // Almacena todos los mensajes
+    this.messages = messages;
+
     this.messagesView = Object.keys(groupedMessages).map(sender => {
       const senderMessages = groupedMessages[sender];
       const lastMessage = senderMessages[senderMessages.length - 1];
@@ -79,6 +82,7 @@ export class WorkAreaBarComponent implements OnInit{
       };
     });
 
+    console.log("Messages Array: ", this.messages);
     console.log("Array: ", this.messagesView); // Verifica el resultado procesado
   }
 

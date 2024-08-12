@@ -1,20 +1,30 @@
 <div class="chat-container">
-    <!-- Header con el nombre del usuario -->
-    <div class="chat-header">
-      <h2>{{ contactName }}</h2>
-    </div>
-  
-    <!-- Espacio para los mensajes -->
+  <!-- Header con el nombre del usuario -->
+  <div class="chat-header">
+    <h2>{{ contactName }}</h2>
+  </div>
+
+  <!-- Espacio para los mensajes -->
+  <div *ngIf="flattenedMessages && flattenedMessages.length">
     <div class="chat-messages">
-      <div *ngFor="let message of messages" class="message">
-        <p><strong>{{ message.sender }}:</strong> {{ message.text }}</p>
-      </div>
-    </div>
-  
-    <!-- Área para escribir y enviar mensajes -->
-    <div class="chat-input">
-      <input [(ngModel)]="newMessage" placeholder="Escribe un mensaje..." />
-      <button>Enviar</button>
+      <div *ngFor="let message of flattenedMessages">
+        <app-message-bubble 
+          [contactName]="message.sender" 
+          [lastMessage]="message.text" 
+          [timestamp]="message.date_msg">
+        </app-message-bubble>
+      </div>      
     </div>
   </div>
-  
+
+  <!-- Plantilla Alternativa en Caso de No Haber Mensajes -->
+  <ng-template #noMessages>
+    <p>No hay mensajes para mostrar.</p>
+  </ng-template>
+
+  <!-- Área para escribir y enviar mensajes -->
+  <div class="chat-input">
+    <input [(ngModel)]="newMessage" placeholder="Escribe un mensaje..." />
+    <button (click)="sendMessage()">Enviar</button>
+  </div>
+</div>

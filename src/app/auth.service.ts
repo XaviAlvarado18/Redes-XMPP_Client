@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, BehaviorSubject, tap } from 'rxjs';
+import { Observable, BehaviorSubject, tap, Subject } from 'rxjs';
 import { environment } from '../environments/environment';
 import { MessageXMPP } from './chat-main/work-area-bar/message-xmpp.model';
 
@@ -12,12 +12,14 @@ export class AuthService {
 
   private usernameSubject = new BehaviorSubject<string | null>(null);
   username$ = this.usernameSubject.asObservable();
+  private messageSelectedSubject = new Subject<string>();
+  messageSelected$ = this.messageSelectedSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
   
   login(username: string, password: string): Observable<any> {
-    console.log('usuario: ', username);
+    //console.log('usuario: ', username);
     const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
     const body = new HttpParams()
       .set('username', username)
@@ -67,6 +69,21 @@ export class AuthService {
 
   getMessages(): Observable<{ messages: MessageXMPP[]}> {
     return this.http.get<{messages: MessageXMPP[]}>(`${this.apiUrl}/get-messages`, { withCredentials: true });
+  }
+
+  sendMessage(to: string, body: string): Observable<any> {
+    console.log("To (sendMessage) ", to);
+    console.log("body(sendMessage) ", body);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    const params = new HttpParams()
+      .set('to', to)
+      .set('body', body);
+
+    return this.http.post<any>(`${this.apiUrl}/send-message`, params.toString(), { headers, withCredentials: true });
+  }
+
+  selectMessage(contactName: string): void {
+    this.messageSelectedSubject.next(contactName);
   }
 
 }

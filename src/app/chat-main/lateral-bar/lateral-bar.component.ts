@@ -23,7 +23,7 @@ export class LateralBarComponent {
 
   ngOnInit() {
     this.authService.getUsername().subscribe(username => {
-      console.log('Username from service:', username); // Debugging
+      //console.log('Username from service:', username); // Debugging
       this.username = username;
     });
   }

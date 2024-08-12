@@ -1,48 +1,99 @@
 import { Component, OnInit, Input} from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MessageBubbleComponent } from './message-bubble/message-bubble.component';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../auth.service';
+
+interface Message {
+  sender: string;
+  text: string;
+  date_msg: string;
+}
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MessageBubbleComponent, CommonModule],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
 
 export class ChatComponent implements OnInit {
   username: string = 'Usuario'; // Cambia esto según tu lógica
-  //messages: { sender: string, text: string }[] = [];
   newMessage: string = '';
-  //@Input() messages: any[] = [];
-  contactName: string = '';
-  @Input() messages: { avatarUrl: string; contactName: string; lastMessage: string; timestamp: string }[] = [];
+  recipient: string = '';
+  @Input() contactName: string = '';
+  @Input() messages: Message[] = [];
+  flattenedMessages: Message[] = [];
 
-  constructor() { }
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    // Verifica los mensajes en la consola
-    console.log("Messages in chat: ", this.messages);
+    if (this.messages.length > 0 && Array.isArray(this.messages[0])) {
+      this.flattenedMessages = this.messages.flat();
+    } else {
+      this.flattenedMessages = this.messages;
+    }
 
-    // Verifica el formato y extrae el nombre del contacto del primer mensaje si existe
-    if (this.messages.length > 0 && Array.isArray(this.messages[0]) && this.messages[0].length > 0) {
-      const firstMessage = this.messages[0][0]; // Primer mensaje en el primer array
-      this.contactName = firstMessage.contactName || 'Unknown';
+    if (this.flattenedMessages.length > 0) {
+      this.contactName = this.flattenedMessages[0].sender || 'Unknown';
     } else {
       this.contactName = 'Unknown';
     }
 
-    console.log("Contact Name: ", this.contactName);
+    // Formatear la fecha de los mensajes
+    this.flattenedMessages = this.flattenedMessages.map(message => ({
+      ...message,
+      date_msg: this.formatDate(message.date_msg)
+    }));
+
+    this.authService.getUsername().subscribe(username => {
+      // Establecer un valor predeterminado si username es null
+      this.username = username || 'Username';
+    });    
+
+    this.authService.messageSelected$.subscribe(contactName => {
+      this.contactName = contactName;
+      this.loadMessagesForContact(contactName);
+    });
+
   }
 
-  /*
-  sendMessage(): void {
-    if (this.newMessage.trim()) {
-      this.messages.push({
-        //sender: this.contactName,
-        text: this.newMessage
-      });
-      this.newMessage = ''; // Limpiar el campo de texto después de enviar
-    }
+  loadMessagesForContact(contactName: string): void {
+    this.authService.getMessages().subscribe(response => {
+      const messages = response.messages;
+      this.flattenedMessages = messages.filter(
+        message => message.sender === contactName || message.sender === this.username
+      );
+    });
   }
-  */
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    return `${month}/${day}`;
+  }
+
+  sendMessage() {
+    if (this.newMessage.trim() === '') {
+      return;
+    }
+
+    this.authService.sendMessage(this.contactName, this.newMessage).subscribe(response => {
+      if (response.status === 'message sent') {
+        const newMessage: Message = {
+          sender: this.username,
+          text: this.newMessage,
+          date_msg: this.formatDate(new Date().toISOString())
+        };
+        this.flattenedMessages.push(newMessage);
+        this.newMessage = '';
+      } else {
+        console.error('Failed to send message', response.error);
+      }
+    }, error => {
+      console.error('An error occurred:', error);
+    });
+  }
 }
