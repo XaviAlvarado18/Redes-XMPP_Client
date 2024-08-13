@@ -10,6 +10,9 @@ interface Message {
   date_msg: string;
 }
 
+
+
+
 @Component({
   selector: 'app-chat',
   standalone: true,
@@ -24,7 +27,9 @@ export class ChatComponent implements OnInit {
   recipient: string = '';
   @Input() contactName: string = '';
   @Input() messages: Message[] = [];
-  flattenedMessages: Message[] = [];
+  @Input() messagesView: Message[] = [];
+  flattenedMessages: any[] = [];
+  messagesPerSender: Message[] = [];
 
   constructor(private authService: AuthService) {}
 
@@ -35,8 +40,10 @@ export class ChatComponent implements OnInit {
       this.flattenedMessages = this.messages;
     }
 
+    console.log("flattenedMessages: ", this.flattenedMessages[0].contactName);
+
     if (this.flattenedMessages.length > 0) {
-      this.contactName = this.flattenedMessages[0].sender || 'Unknown';
+      this.contactName = this.flattenedMessages[0].contactName || 'Unknown';
     } else {
       this.contactName = 'Unknown';
     }
@@ -44,7 +51,7 @@ export class ChatComponent implements OnInit {
     // Formatear la fecha de los mensajes
     this.flattenedMessages = this.flattenedMessages.map(message => ({
       ...message,
-      date_msg: this.formatDate(message.date_msg)
+      date_msg: this.formatDate(message.timestamp)
     }));
 
     this.authService.getUsername().subscribe(username => {
@@ -57,6 +64,13 @@ export class ChatComponent implements OnInit {
       this.loadMessagesForContact(contactName);
     });
 
+    // Cargar mensajes por remitente en el OnInit
+    this.authService.getMessagesBySender(this.contactName).subscribe(response => {
+      this.messagesPerSender = response.messages.filter(
+        (        message: { sender: string; }) => message.sender === this.contactName || message.sender === this.username
+      );
+      console.log('Messages Per Sender:', this.messagesPerSender); // Imprimir mensajes en consola
+    });
   }
 
   loadMessagesForContact(contactName: string): void {
@@ -64,6 +78,15 @@ export class ChatComponent implements OnInit {
       const messages = response.messages;
       this.flattenedMessages = messages.filter(
         message => message.sender === contactName || message.sender === this.username
+      );
+    });
+  }
+
+  loadMessagesForSender(contactName: string): void {
+    this.authService.getMessagesBySender(contactName).subscribe(response => {
+      const messages = response.messages;
+      this.flattenedMessages = messages.filter(
+        (        message: { sender: string; }) => message.sender === contactName || message.sender === this.username
       );
     });
   }
@@ -88,6 +111,7 @@ export class ChatComponent implements OnInit {
           date_msg: this.formatDate(new Date().toISOString())
         };
         this.flattenedMessages.push(newMessage);
+        this.messagesPerSender.push(newMessage);
         this.newMessage = '';
       } else {
         console.error('Failed to send message', response.error);

@@ -38,7 +38,8 @@
     [contactName]="message.contactName"
     [lastMessage]="message.lastMessage"
     [timestamp]="message.timestamp"
-    (messageClick)="handleMessageClick(messageSelected)">>
+    [message]="message"
+    (messageClick)="handleMessageClick(message)">>
   </app-message-item>
 
   </div>  

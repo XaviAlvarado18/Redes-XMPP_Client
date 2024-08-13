@@ -16,6 +16,7 @@ export class ViewWorkareaComponent {
   workAreaBarPosition = 0;
   showChat = false;
   selectedMessages: any[] = [];  // Almacena los mensajes seleccionados
+  messagesPerSender: any[] = [];
 
   constructor(private cd: ChangeDetectorRef) {}
 
@@ -24,6 +25,15 @@ export class ViewWorkareaComponent {
     this.showChat = true;
     console.log("Chat should be visible now.", this.selectedMessages);
     this.cd.detectChanges(); // Forzar la detección de cambios si es necesario
+  }
+
+  
+
+  // Método para manejar el evento messagePerSender
+  handleMessagePerSender(messages: any[]) {
+    console.log("Received messages per sender:", messages);
+    this.messagesPerSender = messages;
+    // Puedes añadir lógica adicional para manejar estos mensajes
   }
 
   // Método opcional para ocultar el chat (si necesitas una forma de cerrarlo)

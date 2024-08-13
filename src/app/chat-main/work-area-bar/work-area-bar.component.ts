@@ -26,6 +26,7 @@ export class WorkAreaBarComponent implements OnInit{
   messagesView: MessageView[] = [];
 
   @Output() messageSelected = new EventEmitter<any>();
+  @Output() messagePerSender = new EventEmitter<any>();
   
 
   constructor(private authService: AuthService) { }
@@ -40,8 +41,9 @@ export class WorkAreaBarComponent implements OnInit{
 
   // Método para manejar el clic en un mensaje
   handleMessageClick(message: any) {
-    this.messageSelected.emit([this.messages]);  // Emitir el mensaje seleccionado
-    console.log("Message selected", this.messagesView);
+    this.messageSelected.emit([message]);  // Emitir el mensaje seleccionado
+    this.messagePerSender.emit(message)
+    console.log("Message selected", message);
   }
 
   getMessages(): void {

@@ -86,4 +86,9 @@ export class AuthService {
     this.messageSelectedSubject.next(contactName);
   }
 
+  getMessagesBySender(senderUsername: string): Observable<{ messages: MessageXMPP[] }> {
+    const url = `${this.apiUrl}/get-messages?senderUsername=${encodeURIComponent(senderUsername)}`;
+    return this.http.get<{ messages: MessageXMPP[] }>(url, { withCredentials: true });
+  }
+
 }

@@ -5,9 +5,9 @@
   </div>
 
   <!-- Espacio para los mensajes -->
-  <div *ngIf="flattenedMessages && flattenedMessages.length">
+  <div *ngIf="messagesPerSender && messagesPerSender.length">
     <div class="chat-messages">
-      <div *ngFor="let message of flattenedMessages">
+      <div *ngFor="let message of messagesPerSender">
         <app-message-bubble 
           [contactName]="message.sender" 
           [lastMessage]="message.text" 
