@@ -1,0 +1,17 @@
+.main-layout {
+    display: flex;
+    height: 100vh; // Asegúrate de ocupar toda la altura de la pantalla
+  }
+  
+  app-lateral-bar {
+    width: 4vw; // Ajusta según el ancho de tu barra lateral
+  }
+  
+  app-contact-area-bar {
+    flex: 1; // Ocupará el 25% del ancho de la pantalla como se definió en el componente
+  }
+  
+  app-chat {
+    flex: 3; /* Ocupará el espacio restante después del lateral-bar y work-area-bar */
+    height: 100%; /* Asegúrate de ocupar toda la altura disponible */
+  }

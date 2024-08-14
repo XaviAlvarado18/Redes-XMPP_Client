@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, Output, EventEmitter } from '@angular/core';
 import { ImageButtonComponent } from '../../image-button/image-button.component';
 import { MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { ModalComponentComponent } from '../modal-component/modal-component.component';
@@ -17,6 +17,8 @@ import { Router } from '@angular/router';
 export class LateralBarComponent {
 
   username: string | null = null;
+  @Output() openWorkArea = new EventEmitter<void>();
+  @Output() openContactArea = new EventEmitter<void>();
   private readonly domain = '@alumchat.lol';
 
   constructor(private dialog: MatDialog, private authService: AuthService, private router: Router) {}
@@ -26,6 +28,14 @@ export class LateralBarComponent {
       //console.log('Username from service:', username); // Debugging
       this.username = username;
     });
+  }
+  
+  //to_workArea() {
+  //  this.openWorkArea.emit();
+  //}
+
+  openContacts(): void {
+    this.router.navigate(['/contactarea']);
   }
 
   onItemClick(item: any) {

@@ -1,0 +1,8 @@
+<div class="main-layout">
+    <app-lateral-bar></app-lateral-bar>
+    <app-contact-area-bar
+      [style.transform]="'translateX(' + contactAreaBarPosition + 'vw)'"
+      (contactSelected)="handleContactSelected($event)">
+    </app-contact-area-bar>
+    <!-- Puedes agregar aquí más componentes relacionados con los contactos -->
+</div>

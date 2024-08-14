@@ -16,6 +16,7 @@ export class MessageBubbleComponent {
 
   ngOnInit(): void {
     console.log('Contact Name:', this.contactName);
+    console.log('lastMessage: ', this.lastMessage);
   }
 
 }

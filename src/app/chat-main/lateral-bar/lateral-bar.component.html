@@ -4,7 +4,7 @@
       imageSrc="assets/xmpp.png"
       [width] = "40"
       [height]="40"
-      [translateY]="5"
+      [translateY]="0"
       (buttonClick)="to_chatMain()"
       >
     </app-image-button>
@@ -13,17 +13,28 @@
       imageSrc="assets/workarea.png"
       [width]="40"
       [height]="40"
-      [translateY]="6"
+      [translateY]="0"
       (buttonClick)="to_workArea()"
+    ></app-image-button>
+
+    <app-image-button
+      imageSrc="assets/contact-book.png"
+      [width]="40"
+      [height]="40"
+      [translateY]="0"
+      (buttonClick)="openContacts()"
     ></app-image-button>
 
     <app-image-button
       imageSrc="assets/user.png"
       [width]="40"
       [height]="40"
-      [translateY]="500"
+      [translateY]="320"
       (buttonClick)="openModal()"
     ></app-image-button>
+
+
+    
 
     <!-- Agrega más botones de imagen si lo necesitas -->
 </div>

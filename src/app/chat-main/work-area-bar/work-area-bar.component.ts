@@ -73,19 +73,36 @@ export class WorkAreaBarComponent implements OnInit{
     // Almacena todos los mensajes
     this.messages = messages;
 
-    this.messagesView = Object.keys(groupedMessages).map(sender => {
-      const senderMessages = groupedMessages[sender];
-      const lastMessage = senderMessages[senderMessages.length - 1];
-      return {
-        avatarUrl: 'assets/user.png', // Aquí puedes personalizar el avatar si es necesario
-        contactName: lastMessage.sender,
-        lastMessage: lastMessage.text,
-        timestamp: lastMessage.date_msg
-      };
-    });
+    // Obtener el nombre de usuario y filtrar los mensajes
+    this.authService.getUsername().subscribe(username => {
+      if (!username) {
+        console.error('Username not found');
+        return;
+      }
+      //console.log("xd: ", username);
 
-    console.log("Messages Array: ", this.messages);
-    console.log("Array: ", this.messagesView); // Verifica el resultado procesado
+      // Filtrar los mensajes por recipient
+      this.messagesView = Object.keys(groupedMessages).map(sender => {
+        const senderMessages = groupedMessages[sender];
+        const lastMessage = senderMessages[senderMessages.length - 1];
+
+        // Solo incluir mensajes donde el recipient es igual al nombre de usuario
+        if (lastMessage.recipient === username+'@alumchat.lol') {
+          return {
+            avatarUrl: 'assets/user.png', // Aquí puedes personalizar el avatar si es necesario
+            contactName: lastMessage.sender,
+            lastMessage: lastMessage.text,
+            timestamp: lastMessage.date_msg
+          };
+        }
+
+        // Retornar null para mensajes que no cumplen la condición
+        return null;
+      }).filter(item => item !== null); // Filtrar los nulos resultantes
+
+      console.log("Messages Array: ", this.messages);
+      console.log("Array: ", this.messagesView); // Verifica el resultado procesado
+    });
   }
 
 }
