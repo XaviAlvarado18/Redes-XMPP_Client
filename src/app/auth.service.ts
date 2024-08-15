@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap, Subject } from 'rxjs';
 import { environment } from '../environments/environment';
 import { MessageXMPP } from './chat-main/work-area-bar/message-xmpp.model';
+import { Contact } from './chat-main/contact-area-bar/contact-xmpp.model';
 
 @Injectable({
   providedIn: 'root'
@@ -90,5 +91,10 @@ export class AuthService {
     const url = `${this.apiUrl}/get-messages-user?senderUsername=${encodeURIComponent(senderUsername)}`;
     return this.http.get<{ messages: MessageXMPP[] }>(url, { withCredentials: true });
   }
+
+  getContacts(): Observable<{ contacts: Contact[] }> {
+    return this.http.get<{ contacts: Contact[] }>(`${this.apiUrl}/get-contacts`, { withCredentials: true });
+  }
+  
 
 }

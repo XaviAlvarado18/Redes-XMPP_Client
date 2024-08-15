@@ -7,19 +7,13 @@
       </button>
     </div>
     <div class="contacts-list">
-      <div class="contact-group">
-        <h3>Contactos (1/2)</h3>
-        <div class="contact-item">
-          <div class="avatar">A</div>
-          <span>alv21188-gajim</span>
-        </div>
-      </div>
-      <div class="contact-group">
-        <h3>xd (1/2)</h3>
-        <div class="contact-item">
-          <div class="avatar">A</div>
-          <span>alumchat.lol</span>
-        </div>
+      <div class="contact-group" *ngFor="let contact of contacts">
+        <app-contact-button 
+        [username]="contact.username" 
+        [status]="contact.status"
+        (contactClick)="onContactClick($event)"
+        >
+        </app-contact-button>
       </div>
     </div>
   </div>

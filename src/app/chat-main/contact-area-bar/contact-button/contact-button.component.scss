@@ -1,0 +1,41 @@
+.contact-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    transition: background-color 0.3s ease;
+  }
+  
+  .contact-button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .avatar {
+    width: 30px;
+    height: 30px;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  
+  span {
+    font-size: 0.9em;
+    margin-right: 10px;
+  }
+  
+  .status {
+    font-size: 0.8em;
+    color: #666;
+  }
+  

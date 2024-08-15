@@ -4,5 +4,6 @@
       [style.transform]="'translateX(' + contactAreaBarPosition + 'vw)'"
       (contactSelected)="handleContactSelected($event)">
     </app-contact-area-bar>
+    <app-contactview [contact]="selectedContact"></app-contactview>
     <!-- Puedes agregar aquí más componentes relacionados con los contactos -->
 </div>
