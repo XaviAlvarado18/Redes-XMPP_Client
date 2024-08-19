@@ -1,0 +1,17 @@
+<div class="modal" tabindex="-1" [ngClass]="{'show': isVisible}" (click)="closeModal()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Ingrese el nombre del contacto a agregar</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" [(ngModel)]="contactName" class="form-control" placeholder="Nombre del contacto" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+          <button type="button" class="btn btn-primary" (click)="addContact()">Añadir contacto</button>
+        </div>
+      </div>
+    </div>
+  </div>  

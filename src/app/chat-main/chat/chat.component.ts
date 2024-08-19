@@ -31,6 +31,7 @@ export class ChatComponent implements OnInit {
   @Input() messagesView: Message[] = [];
   flattenedMessages: any[] = [];
   messagesPerSender: Message[] = [];
+  private refreshInterval: any;
 
   constructor(private authService: AuthService) {}
 
@@ -41,10 +42,6 @@ export class ChatComponent implements OnInit {
       this.flattenedMessages = this.messages;
     }
 
-    //console.log("flattenedMessages Recipient: ", this.flattenedMessages[0].recipient);
-
-    
-    
     if (this.flattenedMessages.length > 0) {
       this.contactName = this.flattenedMessages[0].contactName || 'Unknown';
     } else {
@@ -63,9 +60,8 @@ export class ChatComponent implements OnInit {
     });
 
     this.authService.getUsername().subscribe(username => {
-      // Establecer un valor predeterminado si username es null
       this.username = username || 'Username';
-    });    
+    });
 
     this.authService.messageSelected$.subscribe(contactName => {
       this.contactName = contactName;
@@ -73,21 +69,26 @@ export class ChatComponent implements OnInit {
     });
 
     console.log("flattenedMessages: ", this.flattenedMessages[0]);
-    // Cargar mensajes por remitente en el OnInit
+
+
     this.authService.getMessagesBySender(this.contactName).subscribe(response => {
-      // Asignar todos los mensajes directamente a 'messagesPerSender' sin filtrado
-      this.messagesPerSender = response.messages;
-    
-      // Asignar el 'recipient' del primer mensaje a 'this.recipient'
-      if (this.messagesPerSender.length > 0) {
-        this.recipient = this.messagesPerSender[0].recipient;
-      }
-    
-      console.log('Messages Per Sender:', this.messagesPerSender); 
-      console.log('Recipient:', this.recipient); 
+      //this.loadMessagesForSender(this.contactName);
+        // Asignar todos los mensajes directamente a 'messagesPerSender' sin filtrado
+        this.messagesPerSender = response.messages;
+      // Comenzar la actualización automática
+      
+      
+        // Asignar el 'recipient' del primer mensaje a 'this.recipient'
+        if (this.messagesPerSender.length > 0) {
+          this.recipient = this.messagesPerSender[0].recipient;
+        }
+      
+        console.log('Messages Per Sender:', this.messagesPerSender);
+        console.log('Recipient:', this.recipient);
     });
-    
+
   }
+
 
   loadMessagesForContact(contactName: string): void {
     this.authService.getMessages().subscribe(response => {

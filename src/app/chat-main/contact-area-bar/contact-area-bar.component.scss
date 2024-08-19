@@ -26,8 +26,13 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         height: 2vh;
+        margin-right: 1.0em;
       }
   
+      app-image-button {
+        margin-left: 1.0em; // Espacio entre los botones
+      }
+
       .options-button {
         background: none;
         border: none;
@@ -35,6 +40,29 @@
         font-size: 1.2em;
         margin-left: 10px;
       }
+
+      .filter-button, .add-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 5vh;
+        width: 4vw;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-bottom: 5px;
+  
+        i {
+          font-size: 1.0em;
+        }
+  
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+
     }
   
     .contacts-list {

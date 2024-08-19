@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImageButtonComponent } from "../../image-button/image-button.component";
 import { MessageItemComponent } from '../message-item/message-item.component';
@@ -24,6 +24,7 @@ export class WorkAreaBarComponent implements OnInit{
 
   messages: MessageXMPP[] = [];
   messagesView: MessageView[] = [];
+  private refreshInterval: any;
 
   @Output() messageSelected = new EventEmitter<any>();
   @Output() messagePerSender = new EventEmitter<any>();
@@ -32,7 +33,19 @@ export class WorkAreaBarComponent implements OnInit{
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.getMessages();
+    this.getMessages() // Comenzar la actualización automática
+  }
+
+  refreshContent(): void {
+    console.log('Refreshing content...');
+    this.refreshMessages(); // Llama a la función que obtiene los mensajes
+  }
+  
+
+  ngOnDestroy(): void {
+    if (this.refreshInterval) {
+      clearInterval(this.refreshInterval); // Limpiar el intervalo al destruir el componente
+    }
   }
 
   handleClick() {
@@ -57,8 +70,24 @@ export class WorkAreaBarComponent implements OnInit{
       }
     );
   }
+
+  private refreshMessages(): void {
+    this.authService.getMessages().subscribe(
+      (response: { messages: MessageXMPP[] }) => {
+        console.log(response); // Verifica la estructura de la respuesta
+        this.processMessages(response.messages);
+      },
+      (error) => {
+        console.error('Error al obtener los mensajes:', error);
+      }
+    );
+  }
   
-  
+  private startAutoRefresh(): void {
+    this.refreshInterval = setInterval(() => {
+      this.refreshMessages(); // Llama al método para actualizar los mensajes
+    }, 100000); // Actualizar cada 5 segundos
+  }
 
   processMessages(messages: MessageXMPP[]): void {
     const groupedMessages: { [sender: string]: MessageXMPP[] } = {};

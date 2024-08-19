@@ -95,6 +95,13 @@ export class AuthService {
   getContacts(): Observable<{ contacts: Contact[] }> {
     return this.http.get<{ contacts: Contact[] }>(`${this.apiUrl}/get-contacts`, { withCredentials: true });
   }
+
+  addContact(username: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    const body = new HttpParams().set('username', username);
+
+    return this.http.post<any>(`${this.apiUrl}/add-contact`, body.toString(), { headers, withCredentials: true });
+  }
   
 
 }

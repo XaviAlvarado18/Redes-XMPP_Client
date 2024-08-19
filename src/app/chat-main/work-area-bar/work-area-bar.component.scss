@@ -13,6 +13,22 @@
       margin-bottom: 10px;
       font-size: 1em;
     }
+
+    .title-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .title-bar h2 {
+      margin: 0;
+      display: inline-block;
+    }
+    
+    .title-bar app-image-button {
+      margin-left: 10px; /* Espacio entre el título y el botón */
+      cursor: pointer;
+    }
   
     .toolbar {
       display: flex;
