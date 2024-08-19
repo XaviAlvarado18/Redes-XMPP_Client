@@ -26,6 +26,10 @@ export class WorkAreaBarComponent implements OnInit{
   messagesView: MessageView[] = [];
   private refreshInterval: any;
 
+  newMessageNotification: boolean = false;
+  newMessageContent: string = '';
+
+
   @Output() messageSelected = new EventEmitter<any>();
   @Output() messagePerSender = new EventEmitter<any>();
   
@@ -39,6 +43,15 @@ export class WorkAreaBarComponent implements OnInit{
   refreshContent(): void {
     console.log('Refreshing content...');
     this.refreshMessages(); // Llama a la función que obtiene los mensajes
+  }
+  
+  showNotification(messageContent: string): void {
+    this.newMessageContent = messageContent;
+    this.newMessageNotification = true;
+  
+    setTimeout(() => {
+      this.newMessageNotification = false;
+    }, 5000); // La notificación desaparece después de 5 segundos
   }
   
 
@@ -90,6 +103,7 @@ export class WorkAreaBarComponent implements OnInit{
   }
 
   processMessages(messages: MessageXMPP[]): void {
+    const previousMessageCount = this.messages.length;
     const groupedMessages: { [sender: string]: MessageXMPP[] } = {};
 
     messages.forEach(message => {
@@ -131,6 +145,14 @@ export class WorkAreaBarComponent implements OnInit{
 
       console.log("Messages Array: ", this.messages);
       console.log("Array: ", this.messagesView); // Verifica el resultado procesado
+
+      // Mostrar notificación si hay un nuevo mensaje
+    if (this.messages.length > previousMessageCount) {
+      const newMessages = this.messages.slice(previousMessageCount);
+      const newMessageText = newMessages.map(m => m.text).join('\n');
+      this.showNotification(`Nuevo mensaje: ${newMessageText}`);
+    }
+
     });
   }
 
