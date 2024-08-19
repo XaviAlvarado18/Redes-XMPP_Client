@@ -72,21 +72,30 @@ export class ChatComponent implements OnInit {
 
 
     this.authService.getMessagesBySender(this.contactName).subscribe(response => {
-      //this.loadMessagesForSender(this.contactName);
-        // Asignar todos los mensajes directamente a 'messagesPerSender' sin filtrado
-        this.messagesPerSender = response.messages;
-      // Comenzar la actualización automática
-      
-      
-        // Asignar el 'recipient' del primer mensaje a 'this.recipient'
-        if (this.messagesPerSender.length > 0) {
+      // Asignar todos los mensajes directamente a 'messagesPerSender'
+      this.messagesPerSender = response.messages;
+  
+      // Ordenar los mensajes por fecha, con los más antiguos al principio y los más recientes al final
+      this.messagesPerSender.sort((a, b) => {
+          const parseDate = (dateString: string) => {
+              const [datePart, timePart] = dateString.split(' ');
+              const [day, month] = datePart.split('/').map(Number);
+              const [hours, minutes] = timePart.split(':').map(Number);
+              return new Date(new Date().getFullYear(), month - 1, day, hours, minutes);
+          };
+  
+          return parseDate(a.date_msg).getTime() - parseDate(b.date_msg).getTime();
+      });
+  
+      // Asignar el 'recipient' del primer mensaje a 'this.recipient'
+      if (this.messagesPerSender.length > 0) {
           this.recipient = this.messagesPerSender[0].recipient;
-        }
-      
-        console.log('Messages Per Sender:', this.messagesPerSender);
-        console.log('Recipient:', this.recipient);
-    });
-
+      }
+  
+      console.log('Messages Per Sender:', this.messagesPerSender);
+      console.log('Recipient:', this.recipient);
+  });
+  
   }
 
 
@@ -101,18 +110,25 @@ export class ChatComponent implements OnInit {
 
   loadMessagesForSender(contactName: string): void {
     this.authService.getMessagesBySender(contactName).subscribe(response => {
-      const messages = response.messages;
-      this.flattenedMessages = messages.filter(
-        (        message: { sender: string; }) => message.sender === contactName || message.sender === this.username
-      );
+        const messages = response.messages;
+
+        // Filtrar los mensajes por el remitente
+        this.flattenedMessages = messages.filter(
+            (message: { sender: string; }) => message.sender === contactName || message.sender === this.username
+        );
+
+        // Ordenar los mensajes por fecha, con los más antiguos al principio y los más recientes al final
+        this.flattenedMessages.sort((a, b) => new Date(a.date_msg).getTime() - new Date(b.date_msg).getTime());
     });
-  }
+}
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    return `${month}/${day}`;
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${month}/${day} ${hours}:${minutes}`;
   }
 
   sendMessage() {
