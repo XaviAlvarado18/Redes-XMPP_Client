@@ -15,6 +15,11 @@ import { AddContactModalComponent } from './add-contact-modal/add-contact-modal.
 })
 export class ContactAreaBarComponent {
   contacts: Contact[] = [];
+  private previousContactCount: number = 0;
+
+  newContactNotification: boolean = false;
+  newContactName: string = '';
+
   @Output() contactSelected = new EventEmitter<Contact>();
   @ViewChild(AddContactModalComponent) addContactModal!: AddContactModalComponent;
 
@@ -52,12 +57,34 @@ export class ContactAreaBarComponent {
   loadContacts(): void {
     this.authService.getContacts().subscribe(
       data => {
-        this.contacts = data.contacts;
-        console.log(this.contacts);
+        const newContacts = data.contacts;
+        console.log(newContacts);
+        this.checkForNewContacts(newContacts);
+        this.contacts = newContacts;
       },
       error => {
         console.error('Error loading contacts', error);
       }
     );
   }
+
+  showNotification(contactName: string): void {
+    this.newContactName = contactName;
+    this.newContactNotification = true;
+
+    setTimeout(() => {
+      this.newContactNotification = false;
+    }, 5000); // La notificación desaparece después de 5 segundos
+  }
+
+  checkForNewContacts(newContacts: Contact[]): void {
+    if (newContacts.length > this.previousContactCount) {
+      const newContact = newContacts.slice(this.previousContactCount).pop(); // Obtiene el último contacto añadido
+      if (newContact) {
+        this.showNotification(`Nuevo contacto: ${newContact.username}`);
+      }
+    }
+    this.previousContactCount = newContacts.length;
+  }
+
 }
