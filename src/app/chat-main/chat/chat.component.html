@@ -25,6 +25,13 @@
   <!-- Área para escribir y enviar mensajes -->
   <div class="chat-input">
     <input [(ngModel)]="newMessage" placeholder="Escribe un mensaje..." />
+    <app-image-button
+    imageSrc="assets/adjuntar.png"
+    [width]="30"
+    [height]="30"
+    [translateY]="0"
+    (buttonClick)="handleclick()"
+  ></app-image-button>
     <button (click)="sendMessage()">Enviar</button>
   </div>
 </div>

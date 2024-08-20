@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { MessageBubbleComponent } from './message-bubble/message-bubble.component';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth.service';
+import { ImageButtonComponent } from '../../image-button/image-button.component';
+
 
 interface Message {
   sender: string;
@@ -17,7 +19,7 @@ interface Message {
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [FormsModule, MessageBubbleComponent, CommonModule],
+  imports: [FormsModule, MessageBubbleComponent, CommonModule, ImageButtonComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
@@ -98,6 +100,9 @@ export class ChatComponent implements OnInit {
   
   }
 
+  handleclick = () =>{
+    console.log("Adjunt");
+  }
 
   loadMessagesForContact(contactName: string): void {
     this.authService.getMessages().subscribe(response => {
