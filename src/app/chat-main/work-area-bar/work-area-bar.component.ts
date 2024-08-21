@@ -4,6 +4,8 @@ import { ImageButtonComponent } from "../../image-button/image-button.component"
 import { MessageItemComponent } from '../message-item/message-item.component';
 import { MessageXMPP } from './message-xmpp.model';
 import { AuthService } from '../../auth.service';
+import { ModalNewChatsComponent } from './modal-new-chats/modal-new-chats.component';
+import { Contact } from '../contact-area-bar/contact-xmpp.model';
 
 
 interface MessageView {
@@ -16,11 +18,16 @@ interface MessageView {
 @Component({
   selector: 'app-work-area-bar',
   standalone: true,
-  imports: [CommonModule, ImageButtonComponent, MessageItemComponent],
+  imports: [CommonModule, ImageButtonComponent, MessageItemComponent, ModalNewChatsComponent],
   templateUrl: './work-area-bar.component.html',
   styleUrl: './work-area-bar.component.scss'
 })
 export class WorkAreaBarComponent implements OnInit{
+
+  showModal = false;
+  modalTitle = '';
+  isGroupChat: boolean = false;
+  
 
   messages: MessageXMPP[] = [];
   messagesView: MessageView[] = [];
@@ -28,6 +35,7 @@ export class WorkAreaBarComponent implements OnInit{
 
   newMessageNotification: boolean = false;
   newMessageContent: string = '';
+  dropdownOpen = false;
 
 
   @Output() messageSelected = new EventEmitter<any>();
@@ -39,6 +47,56 @@ export class WorkAreaBarComponent implements OnInit{
   ngOnInit(): void {
     this.getMessages() // Comenzar la actualización automática
   }
+
+  startChat() {
+    this.modalTitle = 'Selecciona un contacto para chat';
+    this.isGroupChat = false;
+    this.showModal = true;
+  }
+
+  startGroupChat() {
+    this.modalTitle = 'Selecciona contactos para chat grupal';
+    this.isGroupChat = true;
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
+
+  onContactSelected(contact: Contact) {
+    console.log('Contacto seleccionado:', contact.username);
+    this.closeModal();
+    // Aquí puedes añadir la lógica para iniciar el chat con el contacto seleccionado
+  }
+  
+  handleChatStart(selectedContacts: Contact | Contact[]) {
+    console.log("SelectedContacts on workarea: ", selectedContacts);
+  
+    // Asegúrate de que selectedContacts sea un array
+    const contactsArray = Array.isArray(selectedContacts) ? selectedContacts : [selectedContacts];
+  
+    // Procesa los contactos para agregar nuevos chats a messagesView
+    contactsArray.forEach(contact => {
+      // Verifica si el chat ya existe en messagesView
+      const chatExists = this.messagesView.some(message =>
+        message.contactName === contact.username
+      );
+  
+      if (!chatExists) {
+        // Agrega un nuevo chat a messagesView
+        this.messagesView.push({
+          avatarUrl: 'assets/user.png', // Asegúrate de que `Contact` tenga un campo para avatarUrl
+          contactName: contact.username,
+          lastMessage: '', // Puede quedar vacío para nuevos chats
+          timestamp: '' // Puede quedar vacío para nuevos chats
+        });
+      }
+    });
+  
+    console.log("Updated messagesView: ", this.messagesView);
+  }
+  
 
   refreshContent(): void {
     console.log('Refreshing content...');
@@ -64,6 +122,16 @@ export class WorkAreaBarComponent implements OnInit{
   handleClick() {
     console.log('Button clicked!');
   }
+
+
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  closeDropdown() {
+    this.dropdownOpen = false;
+  }
+
 
   // Método para manejar el clic en un mensaje
   handleMessageClick(message: any) {

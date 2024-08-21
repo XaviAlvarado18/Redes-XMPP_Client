@@ -1,0 +1,26 @@
+<div class="modal-overlay">
+    <div class="modal-content">
+      <button class="close-button" (click)="closeModal()">X</button>
+      <h3>{{ modalTitle }}</h3>
+      <div class="contacts-list">
+        <div class="contact-group" *ngFor="let contact of contacts">
+          <app-contact-button 
+            [username]="contact.username" 
+            [status]="contact.status"
+            [contact]="contact"
+            [selected]="isContactSelected(contact)"
+            (contactClick)="toggleContactSelection(contact)">
+          </app-contact-button>
+          <span *ngIf="isContactSelected(contact)" class="checkmark">✔️</span>
+        </div>
+      </div>
+      
+      <button 
+        class="start-chat-button" 
+        [disabled]="isGroupChat ? selectedContacts.length < 2 : selectedContacts.length !== 1" 
+        (click)="startChat()">
+        {{ isGroupChat ? 'Ir al chat grupal' : 'Ir al chat' }}
+      </button>      
+    </div>
+  </div>
+  

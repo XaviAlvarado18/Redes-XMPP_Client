@@ -25,14 +25,30 @@
       >
       </app-image-button>
 
-      <app-image-button
-      imageSrc="assets/plus.png"
-      [width] = "30"
-      [height]="30"
-      [translateY]="0"
-      (buttonClick)="handleClick()"
-      >  
-      </app-image-button>
+      <div class="dropdown" (click)="toggleDropdown()">
+        <app-image-button
+          imageSrc="assets/plus.png"
+          [width]="30"
+          [height]="30"
+          [translateY]="0"
+        ></app-image-button>
+      
+        <div *ngIf="dropdownOpen" class="dropdown-menu">
+          <button (click)="startChat()">Chat con un contacto</button>
+          <button (click)="startGroupChat()">Chat grupal</button>
+          <button (click)="closeDropdown()">X</button>
+        </div>
+
+        <app-modal-new-chats
+          *ngIf="showModal"
+          [modalTitle]="modalTitle"
+          [isGroupChat]="isGroupChat"
+          (close)="closeModal()"
+          (chatStart)="handleChatStart($event)"
+        ></app-modal-new-chats>
+
+      </div>
+      
 
 
     </div>

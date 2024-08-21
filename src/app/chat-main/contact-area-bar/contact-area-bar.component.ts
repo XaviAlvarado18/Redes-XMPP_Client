@@ -38,10 +38,10 @@ export class ContactAreaBarComponent {
     console.log('Contacto añadido:', contactName);
   }
 
-  onContactClick(username: string): void {
-    //console.log('Clicked contact:', username);
+  onContactClick(contact: Contact): void {
+    console.log('Clicked contact:', contact.username);
   
-    const selectedContact = this.findContactByUsername(username);
+    const selectedContact = this.findContactByUsername(contact.username);
     if (selectedContact) {
       console.log('Selected contact:', selectedContact);
       this.contactSelected.emit(selectedContact);

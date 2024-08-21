@@ -11,6 +11,19 @@
     width: 100%;
     text-align: left;
     transition: background-color 0.3s ease;
+
+    &.selected {
+      background-color: #e0f7e0;
+    }
+  
+    span {
+      margin-left: 10px;
+    }
+  
+    &:hover {
+      background-color: #f0f0f0;
+    }
+
   }
   
   .contact-button:hover {
@@ -38,4 +51,5 @@
     font-size: 0.8em;
     color: #666;
   }
+  
   

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output} from '@angular/core';
+import { Contact } from '../contact-xmpp.model';
 
 @Component({
   selector: 'app-contact-button',
@@ -8,12 +9,17 @@ import { Component, EventEmitter, Input, Output} from '@angular/core';
 })
 
 export class ContactButtonComponent {
+  
   @Input() username: string = '';
   @Input() status: string = '';
-  @Output() contactClick = new EventEmitter<string>();
+  @Input() contact?: Contact; // Agrega el contacto como input
+  @Input() selected: boolean = false; 
+  @Output() contactClick = new EventEmitter<Contact>();
 
-  handleClick(): void {
-    this.contactClick.emit(this.username);
+  handleClick() {
+    if (this.contact) {
+      this.contactClick.emit(this.contact); // Emitir el objeto Contact
+    }
   }
 
 
