@@ -56,6 +56,10 @@
     margin-top: 20px;
     width: 100%;
 
+    &:hover {
+      background: #0056b3;
+    }
+
     &:disabled {
       background-color: lightgray;
       cursor: not-allowed;
@@ -72,3 +76,23 @@
     background-color: #f0f0f0;
   }
   
+
+  // Estilos para el InputBox del grupo
+#groupName {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+}
+
+label {
+  font-size: 16px;
+  color: #333;
+}

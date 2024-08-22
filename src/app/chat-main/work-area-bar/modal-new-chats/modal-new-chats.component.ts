@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../auth.service';
 import { Contact } from '../../contact-area-bar/contact-xmpp.model';
 import { ContactButtonComponent } from '../../contact-area-bar/contact-button/contact-button.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-modal-new-chats',
   standalone: true,
-  imports: [CommonModule, ContactButtonComponent],
+  imports: [CommonModule, ContactButtonComponent, FormsModule],
   templateUrl: './modal-new-chats.component.html',
   styleUrl: './modal-new-chats.component.scss'
 })
@@ -16,6 +17,8 @@ export class ModalNewChatsComponent {
   @Input() isGroupChat: boolean = false; // Flag para chat grupal
   @Output() close = new EventEmitter<void>();
   @Output() chatStart = new EventEmitter<Contact | Contact[]>(); // Emitirá un contacto o un array de contactos
+  groupName: string = ''; // Para el nombre del grupo en chats grupales
+
 
   contacts: Contact[] = [];
   selectedContacts: Contact[] = [];
@@ -24,6 +27,10 @@ export class ModalNewChatsComponent {
 
   ngOnInit(): void {
     this.loadContacts();
+  }
+
+  get isGroupNameValid(): boolean {
+    return this.groupName.trim().length > 0;
   }
 
   closeModal() {

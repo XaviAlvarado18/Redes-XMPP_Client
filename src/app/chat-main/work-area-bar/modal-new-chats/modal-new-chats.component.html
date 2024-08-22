@@ -1,26 +1,31 @@
 <div class="modal-overlay">
-    <div class="modal-content">
-      <button class="close-button" (click)="closeModal()">X</button>
-      <h3>{{ modalTitle }}</h3>
-      <div class="contacts-list">
-        <div class="contact-group" *ngFor="let contact of contacts">
-          <app-contact-button 
-            [username]="contact.username" 
-            [status]="contact.status"
-            [contact]="contact"
-            [selected]="isContactSelected(contact)"
-            (contactClick)="toggleContactSelection(contact)">
-          </app-contact-button>
-          <span *ngIf="isContactSelected(contact)" class="checkmark">✔️</span>
-        </div>
+  <div class="modal-content">
+    <button class="close-button" (click)="closeModal()">X</button>
+    <h3>{{ modalTitle }}</h3>
+    <div class="contacts-list">
+      <div class="contact-group" *ngFor="let contact of contacts">
+        <app-contact-button 
+          [username]="contact.username" 
+          [status]="contact.status"
+          [contact]="contact"
+          [selected]="isContactSelected(contact)"
+          (contactClick)="toggleContactSelection(contact)">
+        </app-contact-button>
+        <span *ngIf="isContactSelected(contact)" class="checkmark">✔️</span>
       </div>
-      
-      <button 
-        class="start-chat-button" 
-        [disabled]="isGroupChat ? selectedContacts.length < 2 : selectedContacts.length !== 1" 
-        (click)="startChat()">
-        {{ isGroupChat ? 'Ir al chat grupal' : 'Ir al chat' }}
-      </button>      
     </div>
+
+    <!-- InputBox para chats grupales -->
+    <div *ngIf="isGroupChat">
+      <label for="groupName">Nombre del grupo:</label>
+      <input id="groupName" [(ngModel)]="groupName" placeholder="Ingrese el nombre del grupo" />
+    </div>
+
+    <button 
+      class="start-chat-button" 
+      [disabled]="!isGroupNameValid || (isGroupChat && selectedContacts.length < 2) || (!isGroupChat && selectedContacts.length !== 1)" 
+      (click)="startChat()">
+      {{ isGroupChat ? 'Ir al chat grupal' : 'Ir al chat' }}
+    </button>
   </div>
-  
+</div>

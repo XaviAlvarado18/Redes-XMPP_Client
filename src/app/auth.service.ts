@@ -4,6 +4,7 @@ import { Observable, BehaviorSubject, tap, Subject } from 'rxjs';
 import { environment } from '../environments/environment';
 import { MessageXMPP } from './chat-main/work-area-bar/message-xmpp.model';
 import { Contact } from './chat-main/contact-area-bar/contact-xmpp.model';
+import { GroupRequest } from './chat-main/work-area-bar/GroupRequest.model';
 
 @Injectable({
   providedIn: 'root'
@@ -103,5 +104,9 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/add-contact`, body.toString(), { headers, withCredentials: true });
   }
   
+  createGroup(groupRequest: GroupRequest): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<any>(`${this.apiUrl}/create-group`, groupRequest, { headers, withCredentials: true });
+  }
 
 }
