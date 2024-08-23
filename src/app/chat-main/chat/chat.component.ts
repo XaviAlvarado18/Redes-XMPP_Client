@@ -31,15 +31,20 @@ export class ChatComponent implements OnInit {
   @Input() contactName: string = '';
   @Input() messages: Message[] = [];
   @Input() messagesView: Message[] = [];
+  @Input() group: any;
   flattenedMessages: any[] = [];
   messagesPerSender: Message[] = [];
   private refreshInterval: any;
+  isGroup: Boolean | undefined;
+  groupName: any;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     console.log("Messages [CHAT]: ", this.messages);
+    console.log("GROUP: ", this.group);
   
+
     // Verificar si hay al menos un mensaje nulo
     const hasAnyNullMessage = this.messages && this.messages.some(message => message.text === null);
   
@@ -50,6 +55,8 @@ export class ChatComponent implements OnInit {
         ...message,
         date_msg: "" // Dejar 'date_msg' como vacío si hay mensajes nulos
       }));
+
+      this.isGroup = true;
 
     console.log(this.messagesPerSender);
     } else {
@@ -125,6 +132,7 @@ export class ChatComponent implements OnInit {
     
         console.log('Messages Per Sender:', this.messagesPerSender);
         console.log('Recipient:', this.recipient);
+        //this.isGroup = false;
       });
     }
   }
@@ -166,6 +174,40 @@ export class ChatComponent implements OnInit {
     return `${month}/${day} ${hours}:${minutes}`;
   }
 
+  sendMessageAnswer(): void {
+    if (this.isGroup) {
+      this.sendMessageGroup();
+    } else {
+      this.sendMessage();
+    }
+  }
+
+  sendMessageGroup(): void {
+
+    if (this.newMessage.trim() === '') {
+      return;
+    }
+      const groupName = this.group.groupName;
+      console.log("groupName: ", groupName);
+      console.log("this.message: ", this.newMessage);
+      this.authService.sendGroupMessage(groupName, this.newMessage).subscribe(
+        response => {
+          console.log('Response from backend:', response);
+          // Manejar la respuesta del backend
+          if (response.status === 'group message sent') {
+            console.log('Mensaje grupal enviado exitosamente.');
+            // Limpiar el cuerpo del mensaje si es necesario
+            this.newMessage = '';
+          } else {
+            console.error('Error al enviar mensaje grupal:', response.error);
+          }
+        },
+        error => {
+          console.error('Error al enviar mensaje grupal:', error);
+        }
+      );
+  }
+  
   sendMessage() {
     if (this.newMessage.trim() === '') {
       return;

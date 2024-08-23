@@ -124,5 +124,15 @@ export class AuthService {
     return this.http.get<MessageXMPP[]>(`${this.apiUrl}/messages`, { withCredentials: true });
   }
 
+  // Método para enviar un mensaje grupal
+  sendGroupMessage(groupName: string, body: string): Observable<any> {
+    const url = `${this.apiUrl}/send-group-message`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
+    const bodyContent = new URLSearchParams();
+    bodyContent.set('groupName', groupName);
+    bodyContent.set('body', body);
+
+    return this.http.post<any>(url, bodyContent.toString(), { headers });
+  }
 }

@@ -20,6 +20,7 @@ export class ViewWorkareaComponent {
   showChat = false;
   selectedMessages: any[] = [];  // Almacena los mensajes seleccionados
   messagesPerSender: any[] = [];
+  group: any;
 
   constructor(private cd: ChangeDetectorRef, private authService: AuthService) {}
 
@@ -38,6 +39,14 @@ export class ViewWorkareaComponent {
     this.showChat = true;
   }
 
+  handleGroup(group: any[]): void {
+    this.group = group
+    //console.log("handleGroup: ", group);
+    //console.log('Grupo seleccionado en el componente principal:', messages);
+    // Aquí puedes realizar la lógica para cargar los mensajes del grupo
+    //this.loadGroupMessages(group);
+    //this.showChat = true;
+  }
 
 
   // Método para manejar el evento messagePerSender

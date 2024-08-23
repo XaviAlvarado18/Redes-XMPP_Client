@@ -5,8 +5,10 @@
     [style.transform]="'translateX(' + workAreaBarPosition + 'px)'" 
     (messageSelected)="handleMessageSelected($event)"
     (messagePerSender)="handleMessagePerSender($event)"
-    (groupSelected)="handleGroupSelected($event)">
+    (groupSelected)="handleGroupSelected($event)"
+    (group)="handleGroup($event)"
+    >
   </app-work-area-bar>
-  <app-chat *ngIf="showChat" [messages]="selectedMessages" [messagesView]="messagesPerSender"></app-chat>
+  <app-chat *ngIf="showChat" [messages]="selectedMessages" [messagesView]="messagesPerSender" [group]="group"></app-chat>
   <!-- Otros componentes principales de la aplicación -->
 </div>

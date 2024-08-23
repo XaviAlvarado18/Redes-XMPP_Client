@@ -45,6 +45,7 @@ export class WorkAreaBarComponent implements OnInit{
   @Output() messageSelected = new EventEmitter<any>();
   @Output() messagePerSender = new EventEmitter<any>();
   @Output() groupSelected = new EventEmitter<any>();
+  @Output() group = new EventEmitter<any>();
   //@Output() messagesPerSender = new EventEmitter<any>();
 
 
@@ -144,7 +145,7 @@ export class WorkAreaBarComponent implements OnInit{
 
   handleGroupClick(group: GroupRequest): void {
     console.log('Grupo seleccionado:', group);
-    //this.groupSelected.emit(group);
+    this.group.emit(group);
     this.loadGroupMessages(group);
     // Lógica para manejar el clic en un grupo
   }
@@ -198,7 +199,7 @@ export class WorkAreaBarComponent implements OnInit{
 
 
   loadGroupMessages(group: GroupRequest): void {
-    console.log("Cargando mensajes del grupo");
+    console.log("Cargando mensajes del grupo: ", group.groupName);
     this.authService.getGroupMessages(group.groupName).subscribe(
       response => {
         if (response.status === 'success') {
