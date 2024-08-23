@@ -38,67 +38,97 @@ export class ChatComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    if (this.messages.length > 0 && Array.isArray(this.messages[0])) {
-      this.flattenedMessages = this.messages.flat();
-    } else {
-      this.flattenedMessages = this.messages;
-    }
-
-    if (this.flattenedMessages.length > 0) {
-      this.contactName = this.flattenedMessages[0].contactName || 'Unknown';
-    } else {
-      this.contactName = 'Unknown';
-    }
-
-    // Formatear la fecha de los mensajes a un objeto Date
-    this.flattenedMessages = this.flattenedMessages.map(message => {
-      const [day, month] = message.timestamp.split('/');
-      const currentYear = new Date().getFullYear();
-      const date = new Date(currentYear, parseInt(month) - 1, parseInt(day));
-      return {
+    console.log("Messages [CHAT]: ", this.messages);
+  
+    // Verificar si hay al menos un mensaje nulo
+    const hasAnyNullMessage = this.messages && this.messages.some(message => message.text === null);
+  
+    if (hasAnyNullMessage) {
+      console.log("Se detectó un mensaje nulo, procesando como chat grupal.");
+      // Filtrar los mensajes que tengan 'text' no nulo
+      this.messagesPerSender = this.messages.filter(message => message.text !== null).map(message => ({
         ...message,
-        date_msg: date // Guardar como objeto Date
-      };
-    });
+        date_msg: "" // Dejar 'date_msg' como vacío si hay mensajes nulos
+      }));
 
-    this.authService.getUsername().subscribe(username => {
-      this.username = username || 'Username';
-    });
-
-    this.authService.messageSelected$.subscribe(contactName => {
-      this.contactName = contactName;
-      this.loadMessagesForContact(contactName);
-    });
-
-    console.log("flattenedMessages: ", this.flattenedMessages[0]);
-
-
-    this.authService.getMessagesBySender(this.contactName).subscribe(response => {
-      // Asignar todos los mensajes directamente a 'messagesPerSender'
-      this.messagesPerSender = response.messages;
-  
-      // Ordenar los mensajes por fecha, con los más antiguos al principio y los más recientes al final
-      this.messagesPerSender.sort((a, b) => {
-          const parseDate = (dateString: string) => {
-              const [datePart, timePart] = dateString.split(' ');
-              const [day, month] = datePart.split('/').map(Number);
-              const [hours, minutes] = timePart.split(':').map(Number);
-              return new Date(new Date().getFullYear(), month - 1, day, hours, minutes);
-          };
-  
-          return parseDate(a.date_msg).getTime() - parseDate(b.date_msg).getTime();
+    console.log(this.messagesPerSender);
+    } else {
+        // Si los mensajes están anidados, aplanar el array
+        if (this.messages.length > 0 && Array.isArray(this.messages[0])) {
+          this.flattenedMessages = this.messages.flat();
+        } else {
+          this.flattenedMessages = this.messages;
+        }
+    
+        // Procesar las fechas de los mensajes
+        this.flattenedMessages = this.flattenedMessages.map(message => {
+          try {
+            const [day, month] = message.timestamp.split('/');
+            const currentYear = new Date().getFullYear();
+            const date = new Date(currentYear, parseInt(month) - 1, parseInt(day));
+            
+            return {
+              ...message,
+              date_msg: date // Guardar como objeto Date
+            };
+          } catch (error) {
+            console.error('Error al formatear la fecha del mensaje:', error);
+            return {
+              ...message,
+              date_msg: null // Dejar la fecha como null si ocurre un error
+            };
+          }
+        });
+    
+        // Obtener el nombre de contacto
+        if (this.flattenedMessages.length > 0) {
+          this.contactName = this.flattenedMessages[0].contactName || 'Unknown';
+        } else {
+          this.contactName = 'Unknown';
+        }
+      
+    
+      // Obtener el nombre de usuario
+      this.authService.getUsername().subscribe(username => {
+        this.username = username || 'Username';
       });
-  
-      // Asignar el 'recipient' del primer mensaje a 'this.recipient'
-      if (this.messagesPerSender.length > 0) {
+    
+      // Suscribirse a la selección de mensajes
+      this.authService.messageSelected$.subscribe(contactName => {
+        this.contactName = contactName;
+        this.loadMessagesForContact(contactName);
+      });
+    
+      console.log("flattenedMessages: ", this.flattenedMessages[0]);
+    
+      // Obtener mensajes por remitente
+      this.authService.getMessagesBySender(this.contactName).subscribe(response => {
+        // Asignar todos los mensajes directamente a 'messagesPerSender'
+        this.messagesPerSender = response.messages;
+    
+        // Ordenar los mensajes por fecha, con los más antiguos al principio y los más recientes al final
+        this.messagesPerSender.sort((a, b) => {
+          const parseDate = (dateString: string) => {
+            const [datePart, timePart] = dateString.split(' ');
+            const [day, month] = datePart.split('/').map(Number);
+            const [hours, minutes] = timePart.split(':').map(Number);
+            return new Date(new Date().getFullYear(), month - 1, day, hours, minutes);
+          };
+    
+          return parseDate(a.date_msg).getTime() - parseDate(b.date_msg).getTime();
+        });
+    
+        // Asignar el 'recipient' del primer mensaje a 'this.recipient'
+        if (this.messagesPerSender.length > 0) {
           this.recipient = this.messagesPerSender[0].recipient;
-      }
-  
-      console.log('Messages Per Sender:', this.messagesPerSender);
-      console.log('Recipient:', this.recipient);
-  });
-  
+        }
+    
+        console.log('Messages Per Sender:', this.messagesPerSender);
+        console.log('Recipient:', this.recipient);
+      });
+    }
   }
+  
 
   handleclick = () =>{
     console.log("Adjunt");

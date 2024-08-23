@@ -39,12 +39,14 @@ export class WorkAreaBarComponent implements OnInit{
   newMessageContent: string = '';
   dropdownOpen = false;
   groups: GroupRequest[] = [];
+  groupMessages: MessageXMPP[] = [];
 
 
   @Output() messageSelected = new EventEmitter<any>();
   @Output() messagePerSender = new EventEmitter<any>();
-  @Output() groupSelected = new EventEmitter<GroupRequest>();
-  
+  @Output() groupSelected = new EventEmitter<any>();
+  //@Output() messagesPerSender = new EventEmitter<any>();
+
 
   constructor(private authService: AuthService) { }
 
@@ -142,7 +144,8 @@ export class WorkAreaBarComponent implements OnInit{
 
   handleGroupClick(group: GroupRequest): void {
     console.log('Grupo seleccionado:', group);
-    this.groupSelected.emit(group);
+    //this.groupSelected.emit(group);
+    this.loadGroupMessages(group);
     // Lógica para manejar el clic en un grupo
   }
 
@@ -192,6 +195,39 @@ export class WorkAreaBarComponent implements OnInit{
       }
     );
   }
+
+
+  loadGroupMessages(group: GroupRequest): void {
+    console.log("Cargando mensajes del grupo");
+    this.authService.getGroupMessages(group.groupName).subscribe(
+      response => {
+        if (response.status === 'success') {
+          console.log("Mensajes del grupo activados, ahora obteniendo mensajes...");
+          this.loadMessages();  // Llamamos a loadMessages() después de activar los mensajes de grupo
+        } else {
+          console.error("Error al obtener mensajes del grupo:", response);
+        }
+      },
+      error => {
+        console.error("Error en la solicitud:", error);
+      }
+    );
+  }
+  
+  private loadMessages(): void {
+    this.authService.getGetMessagesGroup().subscribe(
+      (messages: MessageXMPP[]) => {
+        this.messages = messages;
+        //console.log("Mensajes seleccionados recibidos:", this.messages);
+  
+        // Emitir los mensajes después de cargarlos
+        this.groupSelected.emit(this.messages);
+      },
+      error => {
+        console.error("Error al obtener mensajes:", error);
+      }
+    );
+  }  
   
   private startAutoRefresh(): void {
     this.refreshInterval = setInterval(() => {

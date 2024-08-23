@@ -4,6 +4,8 @@ import { LateralBarComponent } from '../lateral-bar/lateral-bar.component';
 import { WorkAreaBarComponent } from "../work-area-bar/work-area-bar.component";
 import { ChatComponent } from "../chat/chat.component";
 import { GroupRequest } from '../work-area-bar/GroupRequest.model';
+import { AuthService } from '../../auth.service';
+import { MessageXMPP } from '../work-area-bar/message-xmpp.model';
 
 @Component({
   selector: 'app-view-workarea',
@@ -19,7 +21,7 @@ export class ViewWorkareaComponent {
   selectedMessages: any[] = [];  // Almacena los mensajes seleccionados
   messagesPerSender: any[] = [];
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef, private authService: AuthService) {}
 
   handleMessageSelected(messages: any[]) {
     this.selectedMessages = messages;  // Almacena los mensajes seleccionados
@@ -28,16 +30,15 @@ export class ViewWorkareaComponent {
     this.cd.detectChanges(); // Forzar la detección de cambios si es necesario
   }
 
-  handleGroupSelected(group: GroupRequest): void {
-    console.log('Grupo seleccionado en el componente principal:', group);
+  handleGroupSelected(messages: any[]): void {
+    this.selectedMessages = messages
+    //console.log('Grupo seleccionado en el componente principal:', messages);
     // Aquí puedes realizar la lógica para cargar los mensajes del grupo
-    this.loadGroupMessages(group);
+    //this.loadGroupMessages(group);
     this.showChat = true;
   }
 
-  loadGroupMessages(group: GroupRequest): void {
-    console.log("Esperando mensajes");
-  }
+
 
   // Método para manejar el evento messagePerSender
   handleMessagePerSender(messages: any[]) {

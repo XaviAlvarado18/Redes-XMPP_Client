@@ -114,4 +114,15 @@ export class AuthService {
     return this.http.get<{ status: string, groups: GroupRequest[] }>(`${this.apiUrl}/get-groups`, { withCredentials: true });
   }
 
+  getGroupMessages(groupName: string): Observable<{ status: string, messages: MessageXMPP[] }> {
+    const url = `${this.apiUrl}/get-messages-group`;
+    const params = new HttpParams().set('groupName', groupName);
+    return this.http.get<{ status: string, messages: MessageXMPP[] }>(url, { params, withCredentials: true });
+  }
+
+  getGetMessagesGroup(): Observable<MessageXMPP[]> {
+    return this.http.get<MessageXMPP[]>(`${this.apiUrl}/messages`, { withCredentials: true });
+  }
+
+
 }
