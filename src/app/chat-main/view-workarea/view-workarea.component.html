@@ -1,11 +1,12 @@
+<!-- main.component.html -->
 <div class="main-layout">
-    <app-lateral-bar></app-lateral-bar>
-    <app-work-area-bar 
-      [style.transform]="'translateX(' + workAreaBarPosition + 'px)'" 
-      (messageSelected)="handleMessageSelected($event)"
-      (messagePerSender)="handleMessagePerSender($event)">
-    </app-work-area-bar>
-    <app-chat *ngIf="showChat" [messages]="selectedMessages" [messagesView]="messagesPerSender"></app-chat>
-    <!-- Otros componentes principales de la aplicación -->
-  </div>
-  
+  <app-lateral-bar></app-lateral-bar>
+  <app-work-area-bar 
+    [style.transform]="'translateX(' + workAreaBarPosition + 'px)'" 
+    (messageSelected)="handleMessageSelected($event)"
+    (messagePerSender)="handleMessagePerSender($event)"
+    (groupSelected)="handleGroupSelected($event)">
+  </app-work-area-bar>
+  <app-chat *ngIf="showChat" [messages]="selectedMessages" [messagesView]="messagesPerSender"></app-chat>
+  <!-- Otros componentes principales de la aplicación -->
+</div>

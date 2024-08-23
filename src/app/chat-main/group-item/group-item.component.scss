@@ -1,0 +1,39 @@
+.group-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    border-bottom: 1px solid #ddd; // Línea separadora entre los grupos
+  
+    &:hover {
+      background-color: #f5f5f5; // Color de fondo al pasar el mouse
+    }
+  
+    .group-name {
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-bottom: 5px;
+      color: #333;
+    }
+  
+    .group-members {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px; // Espacio entre miembros
+      color: #666;
+      
+      span {
+        background-color: #e0e0e0;
+        border-radius: 15px;
+        padding: 5px 10px;
+        font-size: 0.9em;
+        white-space: nowrap; // Evita que los nombres de los miembros se rompan en varias líneas
+      }
+    }
+  }
+  

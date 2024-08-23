@@ -4,6 +4,7 @@ import { AuthService } from '../../../auth.service';
 import { Contact } from '../../contact-area-bar/contact-xmpp.model';
 import { ContactButtonComponent } from '../../contact-area-bar/contact-button/contact-button.component';
 import { FormsModule } from '@angular/forms';
+import { GroupRequest } from '../GroupRequest.model';
 
 @Component({
   selector: 'app-modal-new-chats',
@@ -63,18 +64,33 @@ export class ModalNewChatsComponent {
     console.log('Selected contacts:', this.selectedContacts);
   
     if (this.isGroupChat && this.selectedContacts.length >= 2) {
-      console.log('Emitting group chat:', this.selectedContacts);
-      this.chatStart.emit(this.selectedContacts);
+      if (this.isGroupNameValid) {
+        const groupRequest: GroupRequest = {
+          groupName: this.groupName,
+          members: this.selectedContacts.map(contact => contact.username)
+        };
+
+        this.authService.createGroup(groupRequest).subscribe(
+          response => {
+            console.log('Grupo creado con éxito:', response);
+            // No emitimos el evento `chatStart` para chat grupal
+            this.closeModal();
+          },
+          error => {
+            console.error('Error al crear el grupo:', error);
+          }
+        );
+      } else {
+        console.log('Invalid group name.');
+      }
     } else if (!this.isGroupChat && this.selectedContacts.length === 1) {
       console.log('Emitting individual chat:', this.selectedContacts[0]);
-      this.chatStart.emit(this.selectedContacts[0]);
+      this.chatStart.emit(this.selectedContacts[0]); // Emitimos el evento solo para chat individual
+      this.closeModal();
     } else {
       console.log('Cannot start chat. Invalid selection.');
     }
-    
-    this.closeModal();
-  }
-  
+  }  
 
   loadContacts(): void {
     this.authService.getContacts().subscribe(

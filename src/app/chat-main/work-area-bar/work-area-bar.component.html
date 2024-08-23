@@ -72,4 +72,11 @@
     (messageClick)="handleMessageClick(message)">>
   </app-message-item>
 
+  <app-group-item
+    *ngFor="let group of groups"
+    [groupName]="group.groupName"
+    [members]="group.members"
+    (groupClick)="handleGroupClick(group)"
+  ></app-group-item>
+
   </div>  

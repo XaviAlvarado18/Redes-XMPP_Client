@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LateralBarComponent } from '../lateral-bar/lateral-bar.component';
 import { WorkAreaBarComponent } from "../work-area-bar/work-area-bar.component";
 import { ChatComponent } from "../chat/chat.component";
+import { GroupRequest } from '../work-area-bar/GroupRequest.model';
 
 @Component({
   selector: 'app-view-workarea',
@@ -27,7 +28,16 @@ export class ViewWorkareaComponent {
     this.cd.detectChanges(); // Forzar la detección de cambios si es necesario
   }
 
-  
+  handleGroupSelected(group: GroupRequest): void {
+    console.log('Grupo seleccionado en el componente principal:', group);
+    // Aquí puedes realizar la lógica para cargar los mensajes del grupo
+    this.loadGroupMessages(group);
+    this.showChat = true;
+  }
+
+  loadGroupMessages(group: GroupRequest): void {
+    console.log("Esperando mensajes");
+  }
 
   // Método para manejar el evento messagePerSender
   handleMessagePerSender(messages: any[]) {

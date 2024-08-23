@@ -6,6 +6,8 @@ import { MessageXMPP } from './message-xmpp.model';
 import { AuthService } from '../../auth.service';
 import { ModalNewChatsComponent } from './modal-new-chats/modal-new-chats.component';
 import { Contact } from '../contact-area-bar/contact-xmpp.model';
+import { GroupRequest } from './GroupRequest.model';
+import { GroupItemComponent } from '../group-item/group-item.component';
 
 
 interface MessageView {
@@ -18,7 +20,7 @@ interface MessageView {
 @Component({
   selector: 'app-work-area-bar',
   standalone: true,
-  imports: [CommonModule, ImageButtonComponent, MessageItemComponent, ModalNewChatsComponent],
+  imports: [CommonModule, ImageButtonComponent, MessageItemComponent, ModalNewChatsComponent, GroupItemComponent],
   templateUrl: './work-area-bar.component.html',
   styleUrl: './work-area-bar.component.scss'
 })
@@ -36,17 +38,21 @@ export class WorkAreaBarComponent implements OnInit{
   newMessageNotification: boolean = false;
   newMessageContent: string = '';
   dropdownOpen = false;
+  groups: GroupRequest[] = [];
 
 
   @Output() messageSelected = new EventEmitter<any>();
   @Output() messagePerSender = new EventEmitter<any>();
+  @Output() groupSelected = new EventEmitter<GroupRequest>();
   
 
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.getMessages() // Comenzar la actualización automática
+    this.getGroups(); // Llamar a la función para obtener los grupos
+    this.getMessages(); // Llamar a la función para obtener los mensajes
   }
+  
 
   startChat() {
     this.modalTitle = 'Selecciona un contacto para chat';
@@ -76,6 +82,8 @@ export class WorkAreaBarComponent implements OnInit{
     // Asegúrate de que selectedContacts sea un array
     const contactsArray = Array.isArray(selectedContacts) ? selectedContacts : [selectedContacts];
   
+
+
     // Procesa los contactos para agregar nuevos chats a messagesView
     contactsArray.forEach(contact => {
       // Verifica si el chat ya existe en messagesView
@@ -132,6 +140,11 @@ export class WorkAreaBarComponent implements OnInit{
     this.dropdownOpen = false;
   }
 
+  handleGroupClick(group: GroupRequest): void {
+    console.log('Grupo seleccionado:', group);
+    this.groupSelected.emit(group);
+    // Lógica para manejar el clic en un grupo
+  }
 
   // Método para manejar el clic en un mensaje
   handleMessageClick(message: any) {
@@ -139,6 +152,22 @@ export class WorkAreaBarComponent implements OnInit{
     this.messagePerSender.emit(message)
     console.log("Message selected", message);
   }
+
+  getGroups(): void {
+    this.authService.getGroups().subscribe({
+      next: (response) => {
+        console.log("Response from getGroups: ", response);
+        if (response.status === 'success') {
+          this.groups = response.groups;
+          console.log("this.groups: ", this.groups);
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener los grupos:', error);
+      }
+    });
+  }
+  
 
   getMessages(): void {
     this.authService.getMessages().subscribe(
@@ -183,6 +212,16 @@ export class WorkAreaBarComponent implements OnInit{
 
     // Almacena todos los mensajes
     this.messages = messages;
+    
+    // Mapea los mensajes al formato deseado para la vista
+    this.messagesView = messages.map(message => {
+      return {
+        avatarUrl: 'assets/user.png', // URL del avatar por defecto
+        contactName: message.sender,  // El nombre del contacto es el sender
+        lastMessage: message.text,    // El último mensaje es el texto del mensaje
+        timestamp: message.date_msg   // La marca de tiempo del mensaje
+      };
+    });
 
     // Obtener el nombre de usuario y filtrar los mensajes
     this.authService.getUsername().subscribe(username => {
@@ -197,15 +236,15 @@ export class WorkAreaBarComponent implements OnInit{
         const senderMessages = groupedMessages[sender];
         const lastMessage = senderMessages[senderMessages.length - 1];
 
-        // Solo incluir mensajes donde el recipient es igual al nombre de usuario
-        if (lastMessage.recipient === username+'@alumchat.lol') {
-          return {
-            avatarUrl: 'assets/user.png', // Aquí puedes personalizar el avatar si es necesario
-            contactName: lastMessage.sender,
-            lastMessage: lastMessage.text,
-            timestamp: lastMessage.date_msg
-          };
-        }
+        // Verifica si el recipient es igual al nombre de usuario
+        const isRecipient = lastMessage.recipient === username + '@alumchat.lol';
+        
+        return {
+          avatarUrl: 'assets/user.png', // Aquí puedes personalizar el avatar si es necesario
+          contactName: isRecipient ? lastMessage.sender : lastMessage.recipient,
+          lastMessage: lastMessage.text,
+          timestamp: lastMessage.date_msg
+        };
 
         // Retornar null para mensajes que no cumplen la condición
         return null;

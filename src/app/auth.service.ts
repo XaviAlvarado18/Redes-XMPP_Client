@@ -109,4 +109,9 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/create-group`, groupRequest, { headers, withCredentials: true });
   }
 
+  // Nuevo método para obtener los grupos del usuario
+  getGroups(): Observable<{ status: string, groups: GroupRequest[] }> {
+    return this.http.get<{ status: string, groups: GroupRequest[] }>(`${this.apiUrl}/get-groups`, { withCredentials: true });
+  }
+
 }
