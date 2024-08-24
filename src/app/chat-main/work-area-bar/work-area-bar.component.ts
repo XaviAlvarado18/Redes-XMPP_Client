@@ -204,7 +204,7 @@ export class WorkAreaBarComponent implements OnInit{
       response => {
         if (response.status === 'success') {
           console.log("Mensajes del grupo activados, ahora obteniendo mensajes...");
-          this.loadMessages();  // Llamamos a loadMessages() después de activar los mensajes de grupo
+          this.loadMessages(group);  // Llamamos a loadMessages() después de activar los mensajes de grupo
         } else {
           console.error("Error al obtener mensajes del grupo:", response);
         }
@@ -215,20 +215,43 @@ export class WorkAreaBarComponent implements OnInit{
     );
   }
   
-  private loadMessages(): void {
-    this.authService.getGetMessagesGroup().subscribe(
-      (messages: MessageXMPP[]) => {
-        this.messages = messages;
-        //console.log("Mensajes seleccionados recibidos:", this.messages);
-  
-        // Emitir los mensajes después de cargarlos
-        this.groupSelected.emit(this.messages);
+  loadMessages(group: GroupRequest): void {
+    console.log("Enviando mensaje quemado al grupo: ", group.groupName);
+
+    // Enviar mensaje quemado
+    this.authService.sendGroupMessage(group.groupName, `¡Bienvenido al Chat: ${group.groupName}!`).subscribe(
+      sendResponse => {
+        if (sendResponse.status === 'group message sent') {
+          console.log("¡Bienvenido al Chat : ",group.groupName, "!");
+
+          // Esperar 4 segundos antes de cargar los mensajes del grupo
+          setTimeout(() => {
+            console.log("Obteniendo mensajes del grupo después de enviar el mensaje quemado...");
+            
+            // Obtener mensajes del grupo usando getGetMessagesGroup
+            this.authService.getGetMessagesGroup().subscribe(
+              (messages: MessageXMPP[]) => {
+                console.log("Mensajes del grupo obtenidos:", messages);
+                this.messages = messages;
+
+                // Emitir los mensajes después de cargarlos
+                this.groupSelected.emit(this.messages);
+              },
+              error => {
+                console.error("Error al obtener mensajes del grupo:", error);
+              }
+            );
+          }, 2400);  // 4000 ms = 4 segundos
+        } else {
+          console.error("Error al enviar mensaje quemado:", sendResponse.error);
+        }
       },
       error => {
-        console.error("Error al obtener mensajes:", error);
+        console.error("Error al enviar mensaje quemado:", error);
       }
     );
-  }  
+  }
+
   
   private startAutoRefresh(): void {
     this.refreshInterval = setInterval(() => {

@@ -128,11 +128,14 @@ export class AuthService {
   sendGroupMessage(groupName: string, body: string): Observable<any> {
     const url = `${this.apiUrl}/send-group-message`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-
-    const bodyContent = new URLSearchParams();
-    bodyContent.set('groupName', groupName);
-    bodyContent.set('body', body);
-
-    return this.http.post<any>(url, bodyContent.toString(), { headers });
+  
+    const bodyContent = new HttpParams()
+      .set('groupName', groupName)
+      .set('body', body);
+  
+    console.log("bodyContent:", bodyContent.toString());
+  
+    return this.http.post<any>(url, bodyContent.toString(), { headers, withCredentials: true });
   }
+
 }
