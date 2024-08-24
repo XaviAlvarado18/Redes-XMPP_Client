@@ -27,111 +27,87 @@
   }
 }
 
-.dropdown {
-  position: relative;
-  width: '20%';
-  display: inline-block;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: white;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  padding: 10px;
-  border-radius: 8px;
-}
-
-.dropdown-menu button {
-  display: block;
-  width: 100%;
-  padding: 5px;
-  border: none;
-  background: none;
-  text-align: left;
-  cursor: pointer;
-}
-
-.dropdown-menu button:hover {
-  background-color: #f0f0f0;
-}
-
-
 .work-area-bar {
-    display: flex;
-    flex-direction: column;
-    width: 20vw; // Aproximadamente 1/4 del ancho de la pantalla
-    height: 100vh; // Ocupa todo el alto de la pantalla
-    background-color: #f0f0f0; // Ajusta el color de fondo según sea necesario
-    padding: 10px;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1); // Sombra para dar un poco de profundidad
-    border: 1px solid rgb(141, 137, 137);
+  display: flex;
+  flex-direction: column;
+  width: 20vw; /* Aproximadamente 1/4 del ancho de la pantalla */
+  height: 100vh; /* Ocupa todo el alto de la pantalla */
+  background-color: #f0f0f0; /* Ajusta el color de fondo según sea necesario */
+  padding: 10px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra para dar un poco de profundidad */
+  border: 1px solid rgb(141, 137, 137);
+  overflow-y: auto; /* Habilita el desplazamiento vertical cuando el contenido supera la altura */
 
-  
-    h2 {
-      margin-bottom: 10px;
-      font-size: 1em;
+  .title-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .search-input {
+      padding: 5px;
+      border: 1px solid black;
+      width: 14vw;
+      height: 2vh;
+      border-radius: 4px;
+      margin-right: 1em;
     }
 
-    .title-bar {
+    app-image-button {
+      margin-left: 1em; /* Espacio entre los botones */
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: white;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+      padding: 10px;
+      border-radius: 8px;
+      width: max-content; /* Asegura que el menú desplegable tenga un ancho apropiado */
+    }
+
+    .filter-button, .add-button {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-    }
-    
-    .title-bar h2 {
-      margin: 0;
-      display: inline-block;
-    }
-    
-    .title-bar app-image-button {
-      margin-left: 10px; /* Espacio entre el título y el botón */
+      justify-content: center;
+      height: 5vh;
+      width: 4vw;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 4px;
       cursor: pointer;
-    }
-  
-    .toolbar {
-      display: flex;
-      flex-direction: row; // Columna para que los elementos estén uno debajo del otro
-      align-items: stretch;
-  
-      .search-input {
-        padding: 5px;
-        margin-bottom: 10px;
-        margin-right: 1.0em;
-        border: 1px solid black;
-        width: 14vw;
-        height: 2vh;
-        border-radius: 4px;
-      }
-  
-      app-image-button {
-        margin-left: 1.0em; // Espacio entre los botones
+      margin-bottom: 5px;
+
+      i {
+        font-size: 1.0em;
       }
 
-      .filter-button, .add-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 5vh;
-        width: 4vw;
-        border: none;
-        background-color: #007bff;
-        color: white;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-bottom: 5px;
-  
-        i {
-          font-size: 1.0em;
-        }
-  
-        &:hover {
-          background-color: #0056b3;
-        }
+      &:hover {
+        background-color: #0056b3;
       }
     }
   }
-  
+
+  .message-list {
+    flex: 1;
+    overflow-y: auto; /* Habilita el desplazamiento vertical para la lista de mensajes */
+    max-height: calc(100vh - 150px); /* Ajusta la altura máxima para la lista de mensajes */
+  }
+}

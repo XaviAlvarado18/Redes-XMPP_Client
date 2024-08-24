@@ -8,6 +8,7 @@ import { ModalNewChatsComponent } from './modal-new-chats/modal-new-chats.compon
 import { Contact } from '../contact-area-bar/contact-xmpp.model';
 import { GroupRequest } from './GroupRequest.model';
 import { GroupItemComponent } from '../group-item/group-item.component';
+import { forkJoin } from 'rxjs';
 
 
 interface MessageView {
@@ -186,16 +187,34 @@ export class WorkAreaBarComponent implements OnInit{
   }
 
   private refreshMessages(): void {
-    this.authService.getMessages().subscribe(
-      (response: { messages: MessageXMPP[] }) => {
-        console.log(response); // Verifica la estructura de la respuesta
-        this.processMessages(response.messages);
+    // Realiza ambas solicitudes en paralelo
+    forkJoin({
+      individualMessages: this.authService.getMessages(),
+      groupMessages: this.authService.getGetMessagesGroup()
+    }).subscribe(
+      ({ individualMessages, groupMessages }) => {
+        // Si getMessages devuelve un objeto con una propiedad 'messages'
+        // entonces accedemos a esa propiedad
+        if (individualMessages.messages) {
+          this.processMessages(individualMessages.messages);
+        } else {
+          this.processMessages(individualMessages.messages);
+        }
+  
+
+        console.log("getGetMessagesGroup: ",groupMessages)
+        // Procesa los mensajes grupales
+        this.messages = groupMessages;
+
+        // Emitir los mensajes después de cargarlos
+        //this.groupSelected.emit(this.messages);
       },
       (error) => {
         console.error('Error al obtener los mensajes:', error);
       }
     );
   }
+  
 
 
   loadGroupMessages(group: GroupRequest): void {
@@ -216,17 +235,17 @@ export class WorkAreaBarComponent implements OnInit{
   }
   
   loadMessages(group: GroupRequest): void {
-    console.log("Enviando mensaje quemado al grupo: ", group.groupName);
+    //console.log("Enviando mensaje quemado al grupo: ", group.groupName);
 
     // Enviar mensaje quemado
     this.authService.sendGroupMessage(group.groupName, `¡Bienvenido al Chat: ${group.groupName}!`).subscribe(
       sendResponse => {
         if (sendResponse.status === 'group message sent') {
-          console.log("¡Bienvenido al Chat : ",group.groupName, "!");
+          //console.log("¡Bienvenido al Chat : ",group.groupName, "!");
 
           // Esperar 4 segundos antes de cargar los mensajes del grupo
           setTimeout(() => {
-            console.log("Obteniendo mensajes del grupo después de enviar el mensaje quemado...");
+            //console.log("Obteniendo mensajes del grupo después de enviar el mensaje quemado...");
             
             // Obtener mensajes del grupo usando getGetMessagesGroup
             this.authService.getGetMessagesGroup().subscribe(

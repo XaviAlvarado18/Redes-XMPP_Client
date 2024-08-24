@@ -2,6 +2,17 @@
   <!-- Header con el nombre del usuario -->
   <div class="chat-header">
     <h2>{{ contactName }}</h2>
+
+    <app-image-button
+      imageSrc="assets/actualizar-datos.png"
+      [width]="25"
+      [height]="25"
+      [translateY]="0"
+      (buttonClick)="refreshContent()"
+    >
+
+    </app-image-button>
+
   </div>
 
   <!-- Espacio para los mensajes -->

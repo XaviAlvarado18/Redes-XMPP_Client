@@ -1,48 +1,49 @@
 .chat-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    border: 1px solid #ccc;
-  }
-  
-  .chat-header {
-    background-color: #f1f1f1;
-    padding: 10px;
-    text-align: center;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .chat-messages {
-    flex: 1;
-    padding: 10px;
-    overflow-y: auto;
-  }
-  
-  .message {
-    margin-bottom: 10px;
-  }
-  
-  .chat-input {
-    display: flex;
-    border-top: 1px solid #ccc;
-    padding: 10px;
-    background-color: #f9f9f9;
-  }
-  
-  .chat-input input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .chat-input button {
-    margin-left: 10px;
-    padding: 10px 20px;
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid #ccc;
+}
+
+.chat-header {
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  max-height: calc(100vh - 150px); /* Ajuste de altura máxima para mensajes */
+  /* Aquí 150px es una estimación para header + input area; ajusta según tus necesidades */
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.chat-input button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
