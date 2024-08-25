@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, BehaviorSubject, tap, Subject } from 'rxjs';
+import { Observable, BehaviorSubject, tap, Subject, map } from 'rxjs';
 import { environment } from '../environments/environment';
 import { MessageXMPP } from './chat-main/work-area-bar/message-xmpp.model';
 import { Contact } from './chat-main/contact-area-bar/contact-xmpp.model';
@@ -136,6 +136,42 @@ export class AuthService {
     console.log("bodyContent:", bodyContent.toString());
   
     return this.http.post<any>(url, bodyContent.toString(), { headers, withCredentials: true });
+  }
+
+  //Definir status & presence
+
+  // Método para cambiar el estado de disponibilidad
+  changeStatus(status: string): Observable<{ status: string }> {
+    const url = `${this.apiUrl}/change-status`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+
+    const bodyContent = new HttpParams().set('status', status);
+
+    return this.http.post<{ status: string }>(url, bodyContent.toString(), { headers, withCredentials: true });
+  }
+
+  // Nuevo método para obtener el estado actual del usuario
+  getCurrentStatus(): Observable<string> {
+    return this.http.get<{ currentStatus: string }>(`${this.apiUrl}/get-current-status`, { withCredentials: true })
+      .pipe(
+        map(response => {
+          // Mapea los estados personalizados a los estados estándar
+          console.log("currentStatus: ", response.currentStatus);
+          switch (response.currentStatus) {
+            case "I'm busy":
+              return 'busy';
+            case "I'm away":
+              return 'absent';
+            case "I'm unavailable":
+              return 'unavailable';
+            case "I'm available":
+            case "available":
+                return 'available';
+            default:
+              return 'offline'; // Estado por defecto
+          }
+        })
+      );
   }
 
 }

@@ -1,0 +1,17 @@
+<!-- status-modal.component.html -->
+<div class="modal">
+    <div class="modal-content">
+      <h3>Change Status</h3>
+      <ul>
+        <li *ngFor="let status of statuses" 
+            (click)="selectStatus(status)" 
+            [class.selected]="status === selectedStatus">
+          {{ status }}
+        </li>
+      </ul>
+      <div class="modal-actions">
+        <button (click)="changeStatus()" [disabled]="!selectedStatus">Change Status</button>
+        <button (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+</div>  

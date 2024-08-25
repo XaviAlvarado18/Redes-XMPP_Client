@@ -4,22 +4,23 @@
   <p>State and message status for all accounts</p>
   
   <div class="availability">
-    <button (click)="toggleDropdown()" class="status-button">
-      <span [ngClass]="{ 'status-circle': true, 'available': true }"></span>
-      Available
+    <button (click)="openModal()" class="status-button">
+      <span [ngClass]="['status-circle', getStatusClass()]"></span>
+      {{ currentStatus }}
     </button>
-    <ul *ngIf="isDropdownOpen" class="dropdown-menu">
-      <li *ngFor="let status of statuses" (click)="selectStatus(status)">
-        {{ status }}
-      </li>
-    </ul>
   </div>
   
   <div class="status-message">
-    <input type="text" [(ngModel)]="statusMessage" (input)="updateMessage($event)" placeholder="Status message...">
+    <input type="text" [(ngModel)]="statusMessage" placeholder="Status message...">
   </div>
   
   <h2>Updates</h2>
   <p>Gajim: No updates available (last check: {{lastCheck}})</p>
   <p>Plugins: No updates available</p>
+
+  <app-status-modal *ngIf="isModalOpen" 
+                    [statuses]="statuses" 
+                    (statusSelected)="updateStatus($event)" 
+                    (closeModal)="closeModal()">
+  </app-status-modal>
 </div>

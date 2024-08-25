@@ -137,7 +137,9 @@ export class ChatComponent implements OnInit {
         }
     
         console.log('Messages Per Sender:', this.messagesPerSender);
-        console.log('Recipient:', this.recipient);
+        //console.log('Recipient:', this.recipient);
+        console.log("this.contactName: ", this.contactName);
+        console.log("this.username: ", this.username);
         //this.isGroup = false;
       });
     }
@@ -157,19 +159,25 @@ export class ChatComponent implements OnInit {
         if (this.group === undefined) {
           // Procesar solo mensajes individuales
           if (individualMessages.messages) {
-            this.messagesPerSender = individualMessages.messages.map(message => ({
-              ...message,
-              date_msg: "" // Dejar 'date_msg' como vacío si hay mensajes nulos
-            }));
+            this.messagesPerSender = individualMessages.messages
+            .filter(message => 
+              (message.sender === this.contactName && message.recipient === this.username + '@alumchat.lol') || 
+              (message.sender === this.username + '@alumchat.lol' && message.recipient === this.contactName)) // Filtrar mensajes individuales por sender o usuario actual
+              .map(message => ({
+                ...message,
+                date_msg: message.date_msg // Dejar 'date_msg' como vacío si hay mensajes nulos
+              }));
           } else {
             this.messagesPerSender = individualMessages.messages; // No se necesita filtrar ni mapear
           }
         } else {
           // Procesar solo mensajes grupales
-          this.messagesPerSender = groupMessages.filter(message => message.text !== null).map(message => ({
-            ...message,
-            date_msg: "" // Dejar 'date_msg' como vacío si hay mensajes nulos
-          }));
+          this.messagesPerSender = groupMessages
+            .filter(message => message.text !== null)
+            .map(message => ({
+              ...message,
+              date_msg: "" // Dejar 'date_msg' como vacío si hay mensajes nulos
+            }));
         }
   
         console.log("GROUP: ", this.group);
