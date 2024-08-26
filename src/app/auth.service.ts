@@ -174,4 +174,32 @@ export class AuthService {
       );
   }
 
+  sendFile(to: string, base64File: string, fileName: string): Observable<any> {
+    // Configurar los headers para el tipo de contenido
+    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+
+    // Crear el cuerpo de la solicitud
+    const body = new HttpParams()
+      .set('to', to)
+      .set('fileName', fileName)
+      .set('base64File', base64File);
+
+    // Enviar la solicitud POST al backend
+    return this.http.post<any>(`${this.apiUrl}/send-file`, body.toString(), { headers, withCredentials: true });
+  }
+
+  sendNewFile(to: string, base64File: string, fileName: string): Observable<any> {
+    // Configurar los headers para el tipo de contenido
+    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+
+    // Crear el cuerpo de la solicitud
+    const body = new HttpParams()
+      .set('to', to)
+      .set('fileName', fileName)
+      .set('base64File', base64File);
+
+    // Enviar la solicitud POST al backend
+    return this.http.post<any>(`${this.apiUrl}/send-new-file`, body.toString(), { headers, withCredentials: true });
+  }
+
 }

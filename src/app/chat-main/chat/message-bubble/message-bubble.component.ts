@@ -19,4 +19,9 @@ export class MessageBubbleComponent {
     //console.log('lastMessage: ', this.lastMessage);
   }
 
+  formatMessage(text: string): string {
+    // Reemplaza los saltos de línea con <br> para mantener el formato
+    return text.replace(/\n/g, '<br>');
+  }
+
 }

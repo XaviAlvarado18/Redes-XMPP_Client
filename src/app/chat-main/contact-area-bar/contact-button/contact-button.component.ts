@@ -30,12 +30,16 @@ export class ContactButtonComponent {
   getAvatarColor(): string {
     // Puedes personalizar los colores según el estado
     switch (this.status.toLowerCase()) {
-      case 'disponible':
+      case 'available':
         return '#28a745'; // Verde
       case 'busy':
         return '#dc3545'; // Rojo
-      case 'desconectado':
+      case 'offline':
         return '#6c757d'; // Gris
+      case 'absent':
+        return '#fd7e14'; // Naranja
+      case 'unavailable':
+        return '#cf4973'; // Rojo
       default:
         return '#007bff'; // Azul por defecto
     }

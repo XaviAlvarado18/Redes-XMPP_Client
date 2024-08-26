@@ -1,4 +1,4 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MessageBubbleComponent } from './message-bubble/message-bubble.component';
 import { CommonModule } from '@angular/common';
@@ -38,6 +38,7 @@ export class ChatComponent implements OnInit {
   private refreshInterval: any;
   isGroup: Boolean | undefined;
   groupName: any;
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef | undefined;
 
   constructor(private authService: AuthService) {}
 
@@ -146,9 +147,59 @@ export class ChatComponent implements OnInit {
   }
   
 
-  handleclick = () =>{
-    console.log("Adjunt");
+  handleclick = () => {
+    // Simular un clic en el input file para abrir el explorador de archivos
+    this.fileInput?.nativeElement.click();
   }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+  
+    if (input.files && input.files.length > 0) {
+        const file = input.files[0];
+        console.log('Archivo seleccionado:', file.name);
+        
+        // Leer el archivo y convertirlo a Base64
+        const reader = new FileReader();
+        
+        reader.onload = () => {
+            // Obtener el contenido del archivo como ArrayBuffer
+            const fileContent = reader.result as ArrayBuffer;
+            
+            // Convertir el ArrayBuffer a una cadena Base64
+            const base64File = btoa(String.fromCharCode(...new Uint8Array(fileContent)));
+            
+            //console.log('Contenido del archivo en Base64:', base64File);
+            
+            // Llamar al método sendNewFile para enviar el archivo al backend
+            this.authService.sendNewFile(this.contactName, base64File, file.name).subscribe(response => {
+                if (response.status === 'file sent') {
+                    const newMessage: Message = {
+                        sender: this.username,
+                        text: `Archivo enviado: ${file.name}`, // Aquí puedes personalizar el mensaje
+                        date_msg: this.formatDate(new Date().toISOString()),
+                        recipient: this.contactName,
+                    };
+                    this.flattenedMessages.push(newMessage);
+                    this.messagesPerSender.push(newMessage);
+                    console.log('Archivo enviado y mensaje agregado:', response);
+                } else {
+                    console.error('Error al enviar el archivo:', response.error);
+                }
+            }, error => {
+                console.error('Ocurrió un error al enviar el archivo:', error);
+            });
+        };
+        
+        reader.onerror = (error) => {
+            console.error('Error al leer el archivo:', error);
+        };
+        
+        // Leer el archivo como ArrayBuffer para poder convertirlo a Base64
+        reader.readAsArrayBuffer(file);
+    }
+}
+  
 
   refreshContent = () => {
     forkJoin({

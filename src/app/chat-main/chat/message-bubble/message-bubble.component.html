@@ -1,9 +1,10 @@
 <div class="message-bubble">
-    <div class="message-header">
-      <span class="contact-name">{{ contactName }}</span>
-      <span class="timestamp">{{ timestamp }}</span>
-    </div>
-    <div class="message-content">
-      <p>{{ lastMessage }}</p>
-    </div>
-</div>  
+  <div class="message-header">
+    <span class="contact-name">{{ contactName }}</span>
+    <span class="timestamp">{{ timestamp }}</span>
+  </div>
+  <div class="message-content">
+    <!-- Usa [innerHTML] para interpretar el contenido HTML -->
+    <p [innerHTML]="formatMessage(lastMessage)"></p>
+  </div>
+</div>

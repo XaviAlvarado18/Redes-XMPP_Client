@@ -47,6 +47,9 @@
       [translateY]="0"
       (buttonClick)="handleclick()"
     ></app-image-button>
+
+    <!-- Input file oculto -->
+    <input type="file" #fileInput accept="image/jpeg, image/png, image/gif, image/bmp, image/webp" style="display: none;" (change)="onFileSelected($event)">
     <button (click)="sendMessageAnswer()">Enviar</button>
   </div>
 </div>
