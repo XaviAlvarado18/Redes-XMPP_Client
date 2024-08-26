@@ -37,6 +37,36 @@
   background-color: green;
 }
 
+.status-circle.absent {
+  background-color: orange;
+}
+
+.status-circle.unavailable {
+  background-color: red;
+}
+
+.status-circle.busy {
+  background-color: red;
+  position: relative; /* Necesario para posicionar el pseudoelemento */
+
+  /* Pseudoelemento para la línea horizontal blanca */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%; /* Posicionar la línea en el medio verticalmente */
+    left: 0;
+    right: 0;
+    height: 2px; /* Grosor de la línea */
+    background-color: white; /* Color de la línea */
+    transform: translateY(-50%); /* Ajustar la posición de la línea */
+  }
+}
+
+
+.status-circle.offline {
+  background-color: gray;
+}
+
 .status-message {
   input {
     width: 100%;

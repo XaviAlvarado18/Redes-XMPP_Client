@@ -1,0 +1,8 @@
+<!-- group-item.component.html -->
+<div class="group-item" (click)="onGroupClick()">
+    <div class="group-name">{{ groupName }}</div>
+    <div class="group-members">
+      <span *ngFor="let member of members">{{ member }}</span>
+    </div>
+</div>
+  

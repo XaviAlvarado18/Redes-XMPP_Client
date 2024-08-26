@@ -4,6 +4,7 @@
       <!-- chat-main.component.html -->
       <app-view-state *ngIf="isViewState"></app-view-state>
       <app-view-workarea *ngIf="!isViewState"></app-view-workarea>
+      <app-view-contactarea *ngIf="isContactArea"></app-view-contactarea>
       <app-lateral-bar></app-lateral-bar>
       <!--<app-chat-container></app-chat-container> -->
     </div>

@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(username, password).subscribe(
         response => {
           if (response.status === 'connected') { // Verifica el estado de la respuesta
-            console.log('Login successful', response);
+            //console.log('Login successful', response);
             this.router.navigate(['/chat-main']); // Navega solo si el login es exitoso
           } else {
             console.error('Login failed with status:', response.status);

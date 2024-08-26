@@ -1,83 +1,96 @@
-// Estilos básicos para el contenedor del formulario
+// Contenedor del formulario de login
 .login-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 2em;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2em;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  
+  // Centra verticalmente en la pantalla
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// Encabezado con la imagen y el texto
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4.5em;
+  
+  .login-icon {
+    width: 50px; /* Ajusta el tamaño de la imagen */
+    height: 50px; /* Ajusta el tamaño de la imagen */
+    margin-right: 1.5em; /* Espacio entre la imagen y el texto */
   }
   
-  // Títulos y textos
   h2 {
-    margin-bottom: 1.5em;
     font-size: 1.5em;
     color: #333;
-    text-align: center;
+    margin: 0;
   }
-  
-  .register{
-    color: #333;
-  }
+}
 
-  // Estilos para el formulario
-  form {
-    display: flex;
-    flex-direction: column;
+// Estilos para el formulario
+form {
+  display: flex;
+  flex-direction: column;
   
-    div {
-      margin-bottom: 1.5em;
-  
-      label {
-        display: block;
-        margin-bottom: 0.5em;
-        color: #555;
-        font-weight: 600;
-      }
-  
-      input {
-        width: 100%;
-        padding: 0.75em;
-        font-size: 1em;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-sizing: border-box;
-        transition: border-color 0.3s;
-  
-        &:focus {
-          border-color: #007bff;
-          outline: none;
-        }
-      }
+  div {
+    margin-bottom: 1.5em;
+    
+    label {
+      display: block;
+      margin-bottom: 0.5em;
+      color: #555;
+      font-weight: 600;
     }
-  
-    button {
+    
+    input {
+      width: 100%;
       padding: 0.75em;
       font-size: 1em;
-      width: 100%;
-      color: #fff;
-      background-color: #007bff;
-      border: none;
+      border: 1px solid #ddd;
       border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-  
-      &:hover {
-        background-color: #0056b3;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+      
+      &:focus {
+        border-color: #007bff;
+        outline: none;
       }
     }
-
-    // Ajusta el espacio entre los botones específicos
-    .button-container {
-        display: flex;
-        gap: 1em; // Espacio entre los botones
+  }
+  
+  button {
+    padding: 0.75em;
+    font-size: 1em;
+    width: 100%;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    
+    &:hover {
+      background-color: #0056b3;
     }
   }
   
-  // Agregar un poco de margen en la parte superior
-  p {
-    text-align: center;
-    color: #666;
+  // Ajusta el espacio entre los botones específicos
+  .button-container {
+    display: flex;
+    gap: 1em; // Espacio entre los botones
   }
-  
+}
+
+// Agregar un poco de margen en la parte superior
+p {
+  text-align: center;
+  color: #666;
+}

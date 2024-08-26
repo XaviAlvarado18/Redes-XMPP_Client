@@ -4,7 +4,9 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ChatMainComponent } from './chat-main/chat-main.component';
 import { ViewWorkareaComponent } from './chat-main/view-workarea/view-workarea.component';
+import { ViewContactareaComponent } from './chat-main/view-contactarea/view-contactarea.component';
 import { NgModule } from '@angular/core';
+
 
 
 export const routes: Routes = [
@@ -13,6 +15,8 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent},
   { path: 'chat-main', component: ChatMainComponent},
   { path: 'workarea', component: ViewWorkareaComponent },
+  { path: 'contactarea', component: ViewContactareaComponent }
+  ,
 ];
 
 @NgModule({

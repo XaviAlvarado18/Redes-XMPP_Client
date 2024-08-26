@@ -1,0 +1,9 @@
+<div *ngIf="contact" class="contact-view">
+    <div class="avatar">
+      {{ getInitial(contact.username) }}
+    </div>
+    <div class="status">{{ contact.username }}</div>
+    <div class="status">{{ contact.status }}</div>
+    <div class="fullname">{{ contact.fullName || 'No Full Name' }}</div>
+  </div>
+  

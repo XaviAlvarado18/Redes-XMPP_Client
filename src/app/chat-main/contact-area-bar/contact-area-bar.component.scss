@@ -1,0 +1,129 @@
+.contact-area-bar {
+    display: flex;
+    flex-direction: column;
+    width: 20vw;
+    height: 100vh;
+    background-color: #f0f0f0;
+    padding: 10px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    border: 1px solid rgb(141, 137, 137);
+    position: absolute;
+  
+    h2 {
+      margin-bottom: 10px;
+      font-size: 1em;
+    }
+  
+    .toolbar {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      margin-bottom: 10px;
+  
+      .search-input {
+        flex-grow: 1;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        height: 2vh;
+        margin-right: 1.0em;
+      }
+  
+      app-image-button {
+        margin-left: 1.0em; // Espacio entre los botones
+      }
+
+      .options-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2em;
+        margin-left: 10px;
+      }
+
+      .filter-button, .add-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 5vh;
+        width: 4vw;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-bottom: 5px;
+  
+        i {
+          font-size: 1.0em;
+        }
+  
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+
+    }
+  
+    .contacts-list {
+      .contact-group {
+        margin-bottom: 15px;
+  
+        h3 {
+          font-size: 0.9em;
+          margin-bottom: 5px;
+        }
+  
+        .contact-item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 5px;
+  
+          .avatar {
+            width: 30px;
+            height: 30px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+          }
+  
+          span {
+            font-size: 0.9em;
+          }
+        }
+      }
+    }
+  }
+
+  .notification-modal {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4caf50; /* Color de fondo de la notificación */
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 0;
+    animation: fadeInOut 5s forwards;
+  }
+  
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }

@@ -1,20 +1,55 @@
 <div class="chat-container">
-    <!-- Header con el nombre del usuario -->
-    <div class="chat-header">
-      <h2>{{ contactName }}</h2>
-    </div>
-  
-    <!-- Espacio para los mensajes -->
+  <!-- Header con el nombre del usuario -->
+  <div class="chat-header">
+    <h2>{{ contactName }}</h2>
+
+    <app-image-button
+      imageSrc="assets/actualizar-datos.png"
+      [width]="25"
+      [height]="25"
+      [translateY]="0"
+      (buttonClick)="refreshContent()"
+    >
+
+    </app-image-button>
+
+  </div>
+
+  <!-- Espacio para los mensajes -->
+  <div *ngIf="messagesPerSender && messagesPerSender.length">
     <div class="chat-messages">
-      <div *ngFor="let message of messages" class="message">
-        <p><strong>{{ message.sender }}:</strong> {{ message.text }}</p>
-      </div>
-    </div>
-  
-    <!-- Área para escribir y enviar mensajes -->
-    <div class="chat-input">
-      <input [(ngModel)]="newMessage" placeholder="Escribe un mensaje..." />
-      <button>Enviar</button>
+      <div *ngFor="let message of messagesPerSender">
+        <app-message-bubble 
+          [contactName]="message.sender" 
+          [lastMessage]="message.text" 
+          [timestamp]="message.date_msg">
+        </app-message-bubble>
+      </div>      
     </div>
   </div>
-  
+
+  <!-- Plantilla Alternativa en Caso de No Haber Mensajes -->
+  <ng-template #noMessages>
+    <p>No hay mensajes para mostrar.</p>
+  </ng-template>
+
+  <!-- Área para escribir y enviar mensajes -->
+  <div class="chat-input">
+    <input 
+      [(ngModel)]="newMessage" 
+      placeholder="Escribe un mensaje..." 
+      (keydown.enter)="sendMessageAnswer()" 
+    />
+    <app-image-button
+      imageSrc="assets/adjuntar.png"
+      [width]="30"
+      [height]="30"
+      [translateY]="0"
+      (buttonClick)="handleclick()"
+    ></app-image-button>
+
+    <!-- Input file oculto -->
+    <input type="file" #fileInput accept="image/jpeg, image/png, image/gif, image/bmp, image/webp" style="display: none;" (change)="onFileSelected($event)">
+    <button (click)="sendMessageAnswer()">Enviar</button>
+  </div>
+</div>

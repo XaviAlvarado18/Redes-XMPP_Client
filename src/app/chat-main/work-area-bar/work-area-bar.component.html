@@ -1,5 +1,18 @@
+<div *ngIf="newMessageNotification" class="notification-modal">
+  <p>{{ newMessageContent }}</p>
+</div>
 <div class="work-area-bar">
+  <div class="title-bar">
     <h2>Mi área de trabajo</h2>
+    <app-image-button
+      imageSrc="assets/actualizar-datos.png"
+      [width]="25"
+      [height]="25"
+      [translateY]="0"
+      (buttonClick)="refreshContent()"
+    >
+    </app-image-button>
+  </div>
     <div class="toolbar">
       <input type="text" placeholder="Buscar..." class="search-input">
 
@@ -12,14 +25,31 @@
       >
       </app-image-button>
 
-      <app-image-button
-      imageSrc="assets/plus.png"
-      [width] = "30"
-      [height]="30"
-      [translateY]="0"
-      (buttonClick)="handleClick()"
-      >  
-      </app-image-button>
+      <div class="dropdown" (click)="toggleDropdown()">
+        <app-image-button
+          imageSrc="assets/plus.png"
+          [width]="30"
+          [height]="30"
+          [translateY]="0"
+        ></app-image-button>
+      
+        <div *ngIf="dropdownOpen" class="dropdown-menu">
+          <button (click)="startChat()">Chat con un contacto</button>
+          <button (click)="startGroupChat()">Chat grupal</button>
+          <button (click)="closeDropdown()">X</button>
+        </div>
+
+        <app-modal-new-chats
+          *ngIf="showModal"
+          [modalTitle]="modalTitle"
+          [isGroupChat]="isGroupChat"
+          (close)="closeModal()"
+          (chatStart)="handleChatStart($event)"
+        ></app-modal-new-chats>
+
+      </div>
+      
+
 
     </div>
 
@@ -38,7 +68,15 @@
     [contactName]="message.contactName"
     [lastMessage]="message.lastMessage"
     [timestamp]="message.timestamp"
-    (messageClick)="handleMessageClick(messageSelected)">>
+    [message]="message"
+    (messageClick)="handleMessageClick(message)">>
   </app-message-item>
+
+  <app-group-item
+    *ngFor="let group of groups"
+    [groupName]="group.groupName"
+    [members]="group.members"
+    (groupClick)="handleGroupClick(group)"
+  ></app-group-item>
 
   </div>  

@@ -12,11 +12,12 @@ export class MessageItemComponent {
   @Input() contactName: string = '';
   @Input() lastMessage: string = '';
   @Input() timestamp: string = '';
+  @Input() message: any;
 
   @Output() messageClick = new EventEmitter<void>();
 
   onMessageClick() {
-    this.messageClick.emit();
+    this.messageClick.emit(this.message);
   }
 
 }

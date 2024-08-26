@@ -1,0 +1,45 @@
+<div *ngIf="newContactNotification" class="notification-modal">
+  <p>{{ newContactName }}</p>
+</div>
+<div class="contact-area-bar">
+    <h2>Lista de contactos</h2>
+    <div class="toolbar">
+      <input type="text" class="search-input" placeholder="Buscar...">
+
+      <app-image-button
+      imageSrc="assets/loupe.png"
+      [width] = "30"
+      [height]="30"
+      [translateY]="0"
+      (buttonClick)="handleClick()"
+      >
+      </app-image-button>
+
+      <app-image-button
+      imageSrc="assets/plus.png"
+      [width] = "30"
+      [height]="30"
+      [translateY]="0"
+      (buttonClick)="handleClick()"
+      >  
+      </app-image-button>
+
+      <app-add-contact-modal (contactAdded)="onContactAdded($event)"></app-add-contact-modal>
+
+      <button class="options-button">
+        <i class="fas fa-ellipsis-v"></i>
+      </button>
+    </div>
+    <div class="contacts-list">
+      <div class="contact-group" *ngFor="let contact of contacts">
+        <app-contact-button 
+        [username]="contact.username" 
+        [status]="contact.status"
+        [contact]="contact"
+        
+        (contactClick)="onContactClick($event)"
+        >
+        </app-contact-button>
+      </div>
+    </div>
+  </div>

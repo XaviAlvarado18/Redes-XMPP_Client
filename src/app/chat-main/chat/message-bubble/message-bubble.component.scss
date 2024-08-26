@@ -1,0 +1,20 @@
+.message-bubble {
+    background-color: #e0e0e0;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px 0;
+    max-width: 70%;
+    word-wrap: break-word;
+  
+    .message-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #666;
+    }
+  
+    .message-content {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+}  
